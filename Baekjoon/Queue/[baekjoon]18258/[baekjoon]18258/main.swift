@@ -4,7 +4,6 @@
 
 import Foundation
 
-let input = readLine()!
 public class Queue<T>{
     private var data = [T]()
     public init(){}
@@ -12,9 +11,9 @@ public class Queue<T>{
     public func enqueue(element: T){
         data.append(element)
     }
-    //pop
-    public func dequeue(element: T){
-        data.removeFirst()
+    //pop 자기자신 함수 호출방법은?
+    public func dequeue(){
+        self.isEmpty() == false ? print("\(data.removeFirst())") : print("-1")
     }
     public var size :Int {
         return data.count
@@ -28,10 +27,32 @@ public class Queue<T>{
         }
         print("\(element)")
     }
-    public func back() -> T{
+    public func back(){
         guard let element = data.last else{
             return print("-1")
         }
         print("\(element)")
     }
+}
+let input = readLine()!
+print("")
+let queue = Queue<Int>()
+for _ in 0 ..< Int(input)! {
+    let command = readLine()!.split(separator: " ")
+    switch command[0]{
+    case "push":
+        queue.enqueue(element: Int(command[1])!)
+    case "pop":
+        queue.dequeue()
+    case "size":
+        print("\(queue.size)")
+    case "empty":
+        queue.isEmpty() == true ? print("1") : print("0")
+    case "front":
+        queue.front()
+    case "back":
+        queue.back()
+    default:
+        break;
+    } 
 }

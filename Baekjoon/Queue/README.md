@@ -1,1 +1,1 @@
-About stack data structure
+About Queue data structure

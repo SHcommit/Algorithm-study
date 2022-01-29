@@ -1,1 +1,0 @@
-About Queue data structure

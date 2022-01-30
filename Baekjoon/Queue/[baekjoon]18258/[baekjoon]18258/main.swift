@@ -3,40 +3,35 @@
 //  https://www.acmicpc.net/problem/18258
 
 import Foundation
-
-public class Queue<T>{
+public struct Queue<T>{
     private var data = [T]()
-    public init(){}
-    //push
-    public func enqueue(element: T){
+    mutating func enqueue(element: T){
         data.append(element)
     }
-    //pop 자기자신 함수 호출방법은?
-    public func dequeue(){
-        self.isEmpty() == false ? print("\(data.removeFirst())") : print("-1")
+    mutating func dequeue(){
+        isEmpty == false ? print("\(data.removeFirst())") : print("-1")
     }
-    public var size :Int {
-        return data.count
+    var size :Int {
+        data.count
     }
-    public func isEmpty() -> Bool{
-        return data.count >= 1 ? false : true
+    var isEmpty: Bool{
+        data.count >= 1 ? false : true
     }
-    public func front(){
+    var front: Int?{
         guard let element = data.first else{
-            return print("-1")
+            return -1
         }
-        print("\(element)")
+        return element as? Int
     }
-    public func back(){
+    var back: Int?{
         guard let element = data.last else{
-            return print("-1")
+            return -1
         }
-        print("\(element)")
+        return element as? Int
     }
 }
 let input = readLine()!
-print("")
-let queue = Queue<Int>()
+var queue = Queue<Int>()
 for _ in 0 ..< Int(input)! {
     let command = readLine()!.split(separator: " ")
     switch command[0]{
@@ -47,11 +42,11 @@ for _ in 0 ..< Int(input)! {
     case "size":
         print("\(queue.size)")
     case "empty":
-        queue.isEmpty() == true ? print("1") : print("0")
+        queue.isEmpty == true ? print("1") : print("0")
     case "front":
-        queue.front()
+        print("\(queue.front!)")
     case "back":
-        queue.back()
+        print("\(queue.back!)")
     default:
         break;
     } 

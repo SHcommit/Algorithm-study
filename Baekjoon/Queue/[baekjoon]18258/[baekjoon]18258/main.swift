@@ -3,9 +3,9 @@
 //  https://www.acmicpc.net/problem/18258
 
 import Foundation
-public struct Queue<T>{
-    private var data = [T]()
-    mutating func enqueue(element: T){
+public struct Queue{
+    private var data = [Int]()
+    mutating func enqueue(element: Int){
         data.append(element)
     }
     mutating func dequeue(){
@@ -17,21 +17,21 @@ public struct Queue<T>{
     var isEmpty: Bool{
         data.count >= 1 ? false : true
     }
-    var front: Int?{
+    var front: Int{
         guard let element = data.first else{
             return -1
         }
-        return element as? Int
+        return element
     }
-    var back: Int?{
+    var back: Int{
         guard let element = data.last else{
             return -1
         }
-        return element as? Int
+        return element
     }
 }
 let input = readLine()!
-var queue = Queue<Int>()
+var queue = Queue()
 for _ in 0 ..< Int(input)! {
     let command = readLine()!.split(separator: " ")
     switch command[0]{
@@ -44,9 +44,9 @@ for _ in 0 ..< Int(input)! {
     case "empty":
         queue.isEmpty == true ? print("1") : print("0")
     case "front":
-        print("\(queue.front!)")
+        print("\(queue.front)")
     case "back":
-        print("\(queue.back!)")
+        print("\(queue.back)")
     default:
         break;
     } 

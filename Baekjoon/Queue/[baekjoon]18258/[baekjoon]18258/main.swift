@@ -33,18 +33,18 @@ public struct Queue{
 let input = readLine()!
 var queue = Queue()
 for _ in 0 ..< Int(input)! {
-    //let command = readLine()!.split(separator: " ")
-    let command = readLine()! //이 경우 push 1을 다 받아온다
-    //문제를 알았다. split를 쓸 경우 substring 으로 분할하는데 만약 한개의 문자만 받는 경우 에러 발생.
-    //따라서 push 일 경우에만 prefix 와 suffix로 나누면 정확하게 에러가 발생하지 않을텐데
+    var command = readLine()! //이 경우 push 1을 다 받아온다
     var data = 0
-    if command.prefix(4) == "push" {
-        
-        let data = command.suffix(1)
+    if command.contains("push") {
+        //push 의 경우에만 분할 한 다음에 두번째 문자만 따로 숫자로 변환해서 queue에 저장하는 형식으로 바꿈.
+        //에러 고침. 시간 초과.. 문제 발생 
+        var command = command.split(separator: " ")
+        queue.enqueue(element: Int(command[1])!)
+        continue
     }
     switch command{
-    case "push":
-        queue.enqueue(element: Int(exactly: data)!)
+    //case "push":
+   //     queue.enqueue(element: Int(command[1])!)
     case "pop":
         queue.dequeue()
     case "size":

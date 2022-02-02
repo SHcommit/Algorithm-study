@@ -6,23 +6,17 @@ import Foundation
 final class FileIO {
     private let buffer:[UInt8]
     private var index: Int = 0
-
     init(fileHandle: FileHandle = FileHandle.standardInput) {
-        
         buffer = Array(try! fileHandle.readToEnd()!)+[UInt8(0)] // 인덱스 범위 넘어가는 것 방지
     }
-
     @inline(__always) private func read() -> UInt8 {
         defer { index += 1 }
-
         return buffer[index]
     }
-
     @inline(__always) func readInt() -> Int {
         var sum = 0
         var now = read()
         var isPositive = true
-
         while now == 10
                 || now == 32 { now = read() } // 공백과 줄바꿈 무시
         if now == 45 { isPositive.toggle(); now = read() } // 음수 처리
@@ -30,33 +24,24 @@ final class FileIO {
             sum = sum * 10 + Int(now-48)
             now = read()
         }
-
         return sum * (isPositive ? 1:-1)
     }
-
     @inline(__always) func readString() -> String {
         var now = read()
-
         while now == 10 || now == 32 { now = read() } // 공백과 줄바꿈 무시
         let beginIndex = index-1
-
         while now != 10,
               now != 32,
               now != 0 { now = read() }
-
         return String(bytes: Array(buffer[beginIndex..<(index-1)]), encoding: .ascii)!
     }
-
     @inline(__always) func readByteSequenceWithoutSpaceAndLineFeed() -> [UInt8] {
         var now = read()
-
         while now == 10 || now == 32 { now = read() } // 공백과 줄바꿈 무시
         let beginIndex = index-1
-
         while now != 10,
               now != 32,
               now != 0 { now = read() }
-
         return Array(buffer[beginIndex..<(index-1)])
     }
 }
@@ -100,21 +85,18 @@ var queue = Queue();
 var fIO = FileIO();
 for _ in 0 ..< fIO.readInt() {
     var input = fIO.readString()
-    switch input{
-    case "push":
+    if input == "push"{
         queue.enqueue(fIO.readInt())
-    case "pop":
-        result += "\(queue.dequeue())" + "\n"
-    case "size":
-        result += "\(queue.size)" + "\n"
-    case "empty":
-        result += queue.isEmpty ? "1\n" : "0\n"
-    case "front":
+    }else if input == "front" {
         result += "\(queue.front)" + "\n"
-    case "back":
+    }else if input == "pop"{
+        result += "\(queue.dequeue())" + "\n"
+    }else if input == "empty"{
+        result += queue.isEmpty ? "1\n" : "0\n"
+    }else if input == "size"{
+        result += "\(queue.size)" + "\n"
+    }else if input == "back"{
         result += "\(queue.back)" + "\n"
-    default:
-        break;
     }
 }
 print(result)

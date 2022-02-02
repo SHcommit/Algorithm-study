@@ -66,8 +66,8 @@ public struct Queue{
         data.append(element)
     }
     mutating func dequeue(){
-        isEmpty == false ? print("\(data.removeFirst())") : print("-1")
-    }
+            isEmpty == false ? result.write(String(data.removeFirst()) + "\n") : result.write("-1\n")
+        }
     var size :Int {
         data.count
     }
@@ -87,26 +87,27 @@ public struct Queue{
         return element
     }
 }
+var result = ""
 let fIO = FileIO()
 var queue = Queue();
 let n = fIO.readInt()
 for _ in 0 ..< n {
     var input = fIO.readString() //이 경우 push 1을 다 받아온다
     switch input{
-    case "push":
-        queue.enqueue(element: fIO.readInt())
-    case "pop":
-        queue.dequeue()
-    case "size":
-        print("\(queue.size)")
-    case "empty":
-        queue.isEmpty == true ? print("1") : print("0")
-    case "front":
-        print("\(queue.front)")
-    case "back":
-        print("\(queue.back)")
-    default:
-        break;
+        case "push":
+            queue.enqueue(element: fIO.readInt())
+        case "pop":
+            queue.dequeue()
+        case "size":
+            result.write(String(queue.size) + "\n")
+        case "empty":
+            queue.isEmpty == true ? result.write("1\n") : result.write("0\n");
+        case "front":
+            result.write(String(queue.front) + "\n")
+        case "back":
+            result.write(String(queue.back) + "\n")
+        default:
+            break;
     }
 }
-
+print(result)

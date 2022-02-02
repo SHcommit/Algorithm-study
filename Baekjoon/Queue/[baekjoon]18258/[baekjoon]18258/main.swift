@@ -3,6 +3,63 @@
 //  https://www.acmicpc.net/problem/18258
 
 import Foundation
+final class FileIO {
+    private let buffer:[UInt8]
+    private var index: Int = 0
+
+    init(fileHandle: FileHandle = FileHandle.standardInput) {
+        
+        buffer = Array(try! fileHandle.readToEnd()!)+[UInt8(0)] // 인덱스 범위 넘어가는 것 방지
+    }
+
+    @inline(__always) private func read() -> UInt8 {
+        defer { index += 1 }
+
+        return buffer[index]
+    }
+
+    @inline(__always) func readInt() -> Int {
+        var sum = 0
+        var now = read()
+        var isPositive = true
+
+        while now == 10
+                || now == 32 { now = read() } // 공백과 줄바꿈 무시
+        if now == 45 { isPositive.toggle(); now = read() } // 음수 처리
+        while now >= 48, now <= 57 {
+            sum = sum * 10 + Int(now-48)
+            now = read()
+        }
+
+        return sum * (isPositive ? 1:-1)
+    }
+
+    @inline(__always) func readString() -> String {
+        var now = read()
+
+        while now == 10 || now == 32 { now = read() } // 공백과 줄바꿈 무시
+        let beginIndex = index-1
+
+        while now != 10,
+              now != 32,
+              now != 0 { now = read() }
+
+        return String(bytes: Array(buffer[beginIndex..<(index-1)]), encoding: .ascii)!
+    }
+
+    @inline(__always) func readByteSequenceWithoutSpaceAndLineFeed() -> [UInt8] {
+        var now = read()
+
+        while now == 10 || now == 32 { now = read() } // 공백과 줄바꿈 무시
+        let beginIndex = index-1
+
+        while now != 10,
+              now != 32,
+              now != 0 { now = read() }
+
+        return Array(buffer[beginIndex..<(index-1)])
+    }
+}
 public struct Queue{
     private var data = [Int]()
     mutating func enqueue(element: Int){
@@ -30,21 +87,14 @@ public struct Queue{
         return element
     }
 }
-let input = readLine()!
-var queue = Queue()
-for _ in 0 ..< Int(input)! {
-    var command = readLine()! //이 경우 push 1을 다 받아온다
-    var data = 0
-    if command.contains("push") {
-        //push 의 경우에만 분할 한 다음에 두번째 문자만 따로 숫자로 변환해서 queue에 저장하는 형식으로 바꿈.
-        //에러 고침. 시간 초과.. 문제 발생 
-        var command = command.split(separator: " ")
-        queue.enqueue(element: Int(command[1])!)
-        continue
-    }
-    switch command{
-    //case "push":
-   //     queue.enqueue(element: Int(command[1])!)
+let fIO = FileIO()
+var queue = Queue();
+let n = fIO.readInt()
+for _ in 0 ..< n {
+    var input = fIO.readString() //이 경우 push 1을 다 받아온다
+    switch input{
+    case "push":
+        queue.enqueue(element: fIO.readInt())
     case "pop":
         queue.dequeue()
     case "size":
@@ -57,5 +107,6 @@ for _ in 0 ..< Int(input)! {
         print("\(queue.back)")
     default:
         break;
-    } 
+    }
 }
+

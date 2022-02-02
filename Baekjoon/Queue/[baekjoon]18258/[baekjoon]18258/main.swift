@@ -6,23 +6,17 @@ import Foundation
 final class FileIO {
     private let buffer:[UInt8]
     private var index: Int = 0
-
     init(fileHandle: FileHandle = FileHandle.standardInput) {
-        
-        buffer = Array(try! fileHandle.readToEnd()!)+[UInt8(0)] // 인덱스 범위 넘어가는 것 방지
+        buffer = Array(try! fileHandle.readToEnd()!)+[UInt8(0)]
     }
-
     @inline(__always) private func read() -> UInt8 {
         defer { index += 1 }
-
         return buffer[index]
     }
-
     @inline(__always) func readInt() -> Int {
         var sum = 0
         var now = read()
         var isPositive = true
-
         while now == 10
                 || now == 32 { now = read() } // 공백과 줄바꿈 무시
         if now == 45 { isPositive.toggle(); now = read() } // 음수 처리
@@ -30,43 +24,34 @@ final class FileIO {
             sum = sum * 10 + Int(now-48)
             now = read()
         }
-
         return sum * (isPositive ? 1:-1)
     }
-
     @inline(__always) func readString() -> String {
         var now = read()
-
         while now == 10 || now == 32 { now = read() } // 공백과 줄바꿈 무시
         let beginIndex = index-1
-
         while now != 10,
               now != 32,
               now != 0 { now = read() }
-
         return String(bytes: Array(buffer[beginIndex..<(index-1)]), encoding: .ascii)!
     }
-
     @inline(__always) func readByteSequenceWithoutSpaceAndLineFeed() -> [UInt8] {
         var now = read()
-
-        while now == 10 || now == 32 { now = read() } // 공백과 줄바꿈 무시
+        while now == 10 || now == 32 { now = read() }
         let beginIndex = index-1
-
         while now != 10,
               now != 32,
               now != 0 { now = read() }
-
         return Array(buffer[beginIndex..<(index-1)])
     }
 }
-public struct Queue{
+class Queue{
     private var data = [Int]()
-    mutating func enqueue(element: Int){
+    func enqueue(_ element: Int){
         data.append(element)
     }
-    mutating func dequeue(){
-            isEmpty == false ? result.write(String(data.removeFirst()) + "\n") : result.write("-1\n")
+    func dequeue() -> Int{
+            isEmpty ? -1 : data.removeFirst()
         }
     var size :Int {
         data.count
@@ -90,22 +75,21 @@ public struct Queue{
 var result = ""
 let fIO = FileIO()
 var queue = Queue();
-let n = fIO.readInt()
-for _ in 0 ..< n {
-    var input = fIO.readString() //이 경우 push 1을 다 받아온다
+for _ in 0 ..< fIO.readInt() {
+    var input = fIO.readString()
     switch input{
         case "push":
-            queue.enqueue(element: fIO.readInt())
+            queue.enqueue(fIO.readInt())
         case "pop":
-            queue.dequeue()
+            result += "\(queue.dequeue())" + "\n"
         case "size":
-            result.write(String(queue.size) + "\n")
+            result += "\(queue.size)" + "\n"
         case "empty":
-            queue.isEmpty == true ? result.write("1\n") : result.write("0\n");
+            result += queue.isEmpty ? "1\n" : "0\n"
         case "front":
-            result.write(String(queue.front) + "\n")
+            result += "\(queue.front)" + "\n"
         case "back":
-            result.write(String(queue.back) + "\n")
+            result += "\(queue.back)" + "\n"
         default:
             break;
     }

@@ -3,6 +3,13 @@
 //  https://www.acmicpc.net/problem/18258
 
 import Foundation
+/**
+ *리아노님 빠른 FileIO class를 사용했다.
+ *최신버전이 있는데, 최신버전의 readString()은 String 반환이다.
+ *근데 최신버전 보다 아래의 FileIO버전에서의 readString() -> Int 가 더 빠른 것 같다.
+ *최신버전 FileIO를 쓰면 시간초과되고, 아래의 readString() -> Int 버전이 겨우 제출된다.
+ *이번 문제를 계기로 readLine()과 split, 입력량이 많을 땐 FileIO 클래스의 사용. deQue의 기능 구현방법을 알게 되었다.
+ */
 final class FileIO {
     private var buffer:[UInt8]
     private var index: Int
@@ -45,6 +52,15 @@ final class FileIO {
         return str
     }
 }
+/**
+ *맨 처음에 한개의 배열에로 큐를 구현했다.
+ *배열명 = data라고한다면. dequeue를 호출했을 때 data.removeFirst 를 사용했다.
+ *왜 시간 초과가 나는지 곰곰이 생각해 봤는데. 첫번째 원소를 지우고 난 후에 빈 첫번째 자리를 뒤에서부터 채우는 방식이다.
+ *이 방법 보다는 양쪽에서 삽입, 삭제가 빨리 되는 deQue를 선택하게 된 것 같다.
+ *Queue관련 dequeue가 구현된 문제들을 살펴봤는데, 대부분이 removeFirst보단,
+ *아래 구현된 것 처럼 dequeue를 호출했을 때 뒤의 배열이 비었다면, 앞의 배열 원소를 reversed한 후 뒷 원소에 대입하고, 앞 원소는 삭제하고,
+ *큐의 앞원소를 출력한다면 rearQ.last or frontQ.first를 통해 사용하는 것이다. (참 대단한 개발자분들이다,,)
+ */
 class Queue{
     private var frontQ = [Int]()
     private var rearQ = [Int]()

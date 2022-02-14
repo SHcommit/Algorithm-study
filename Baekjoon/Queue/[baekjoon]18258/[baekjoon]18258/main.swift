@@ -60,7 +60,7 @@ final class FileIO {
  *이 방법 보다는 양쪽에서 삽입, 삭제가 빨리 되는 deQue를 선택하게 된 것 같다.
  *Queue관련 dequeue가 구현된 문제들을 살펴봤는데, 대부분이 removeFirst보단,
  *아래 구현된 것 처럼 dequeue를 호출했을 때 뒤의 배열이 비었다면, 앞의 배열 원소를 reversed한 후 뒷 원소에 대입하고, 앞 원소는 삭제하고,
- *큐의 앞원소를 출력한다면 rearQ.last or frontQ.first를 통해 사용하는 것이다. (참 대단한 개발자분들이다,,)
+ *큐의 앞원소를 출력한다면 rearQ.last or frontQ.first를 통해 사용하는 것이다.
  */
 class Queue{
     private var frontQ = [Int]()
@@ -117,3 +117,4 @@ for _ in 0 ..< fIO.readInt() {
     }
 }
 print(result)
+

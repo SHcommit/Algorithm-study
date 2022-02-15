@@ -25,19 +25,12 @@ class Queue {
 
 let input = readLine()!.split(separator: " ")
 var N = Int(input[0])!
-var array :Array<Int> = Array(1...N);
+let std = Int(input[1])!//std 만큼 나누어야함
+var array = Array(1...N);
 var cnt = 0; //몇번 반복하는가. -> N 번만큼.
-let std = Int(input[1])! //std 만큼 나누어야함
-var index = 0;
-//var q = Queue(N)
-if( N >= std){
+var index = -1;
 var result : String = "<"
-index = index + std - 1
-cnt += 1
-result += "\(array[index]), "
-array[index] = -1
 while(cnt != N ){
-    //index += std
     for _ in 1...std{
         index += 1
         if index >= N {
@@ -61,10 +54,6 @@ while(cnt != N ){
     array[index] = -1;
 }
 print(result + ">")
-}
-else{
-    NSLog("error")
-}
 //var index = 0; //index == 0~6까지, 근데 count = 3일 때 index는 2니까 index +1 해야함.
 /*while(cnt != N){
     if index > N {

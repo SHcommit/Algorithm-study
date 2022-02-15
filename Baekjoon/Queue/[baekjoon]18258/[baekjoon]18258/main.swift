@@ -10,7 +10,7 @@ import Foundation
  *최신버전 FileIO를 쓰면 시간초과되고, 아래의 readString() -> Int 버전이 겨우 제출된다.
  *이번 문제를 계기로 readLine()과 split, 입력량이 많을 땐 FileIO 클래스의 사용. deQue의 기능 구현방법을 알게 되었다.
  *
- *추가로 FileIO 클래스를 사용할 때는 입력 이후 엔터 -> cmd + d 를 눌러야한다.
+ *추가로 FileIO 클래스를 사용할 때는 입력 이후 엔터 -> ctrl + d 를 눌러야한다.
  */
 final class FileIO {
     private var buffer:[UInt8]

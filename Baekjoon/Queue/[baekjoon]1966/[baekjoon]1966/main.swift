@@ -25,7 +25,7 @@
  *  * 예
  *  ** input
  *  * 3 <TestCase 개수>
- *  * 1 0   <TestCase 1: 첫번째 줄>
+ *  * 1 0 <TestCase 1: 첫번째 줄>
  *  * 5 <TestCase 1: 두번째 줄>
  *  * 4 2 <TestCase 2: 첫번째 줄>
  *  * 1 2 3 4 <TestCase 2: 두번째 줄>
@@ -37,3 +37,45 @@
  *  * 5 <TestCase 1: M에 대한 결과>
  */
 import Foundation
+
+class Queue {
+    var queue = Array<Int>()
+    var maxValue = 0
+    var index : Int
+    var M : Int; // 특정 index
+    var cnt : Int // 큰 중요도부터 차례대로 출력되는거 카운트 변수.
+    var flag : Bool
+    init(){
+        index = 0;
+        flag = false;
+        var firstLine = readLine()!.split(separator: " ")
+        var secondLine = readLine()!.split(separator: " ")
+        var list = Array<Int>()
+        
+        M = Int(firstLine[1])!
+        for i in 0..<secondLine.count{
+            list.append(Int(secondLine[i])!); //마지막 부분 secondLine()안되네,,
+        }
+    }
+    func enqueue(_ element: Int){
+        queue.append(element);
+    }
+    func dequeue() -> Int{
+        
+    }
+}
+
+var result : String = "";
+var input = readLine()!
+
+for _ in 1...Int(input)!{
+    var q = Queue();
+    while(q.flag != true){
+        //큰경우 , 같은경우, 작은경우는 출력!
+        if q.maxValue > q.queue[q.index] {
+            if q.queue[q.index] < q.queue[q.index + 1]{
+                
+            }
+        } else if
+    }
+}

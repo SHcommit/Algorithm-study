@@ -3,7 +3,11 @@
 //  https://www.acmicpc.net/problem/2750
 
 import Foundation
-
+/**
+ * *수 정렬하기 | 2750번 문제
+ *
+ * 삽입 정렬을 이용한 input 숫자 정렬
+ */
 func insertionSort(_ array: inout Array<Int>){
     if array.count <= 1 {
         return;

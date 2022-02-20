@@ -37,7 +37,8 @@ func merge(leftHalf left : Array<Int>,rightHalf right : Array<Int>) -> Array<Int
             rIndex += 1
         }
     }
-    tmpArray.append(lIndex == left.count ? right[rIndex] : left[lIndex]);
+    //array 추가.contentsOf
+    tmpArray.append(contentsOf: lIndex == left.count ? Array(right[rIndex..<right.count]) : Array(left[lIndex..<left.count]));
     
     return tmpArray;
 }
@@ -48,7 +49,7 @@ for _ in 0..<n {
     inputArray.append(Int(readLine()!)!)
 }
 
-mergeSort(inputArray)
+inputArray = mergeSort(inputArray)
 
 for i in 0..<inputArray.count {
     print("\(inputArray[i])")

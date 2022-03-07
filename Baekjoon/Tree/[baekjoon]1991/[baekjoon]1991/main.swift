@@ -6,75 +6,117 @@
  *Level : Silver 1 tier
  */
 import Foundation
-// 트리에 사용되는 노드는 key, leftSubtree,rightSubtree, parent를 지목할 수 있어야한다.
-class BinaryTreeNode<T : Comparable> {
-    public var key : T
-    public var leftSubtree : BinaryTreeNode?
-    public var rightSubtree : BinaryTreeNode?
-    public var parent: BinaryTreeNode?
+/*
+ * 트리에 사용되는 노드는 key, leftSubtree,rightSubtree, parent를 지목할 수 있어야한다.
+ * leftSubtree : 옵셔널 타입인데. 기본적으로 클래스는 reference로 참조가 가능하다. nil이 아닐 경우 해당 인스턴스를 참조한다고 보면 된다.
+ * convenience init 는 보조 init
+ */
+class BTNode{
+    var key : String
+    var left : BTNode?
+    var right : BTNode?
     
-    init(key :T , leftSubtree left :BinaryTreeNode?, rightSubtree right: BinaryTreeNode?, parent : BinaryTreeNode?){
-        self.key = key;
-        self.leftSubtree = left
-        self.rightSubtree = right
-        self.parent = parent
+    init(key : String , leftSubtree left : BTNode?, rightSubtree right : BTNode? ){
+        self.key = key
+        self.left = left
+        self.right = right
     }
-    
-    convenience init(key : T){
-        self.init(key: key, leftSubtree: nil, rightSubtree: nil, parent: nil)
+    convenience init(key : String){
+        self.init(key: key, leftSubtree: nil, rightSubtree: nil)
     }
-    
-    private func addNode(key : T){
-        if key < self.key{
-            if let leftSubtree = leftSubtree {
-                leftSubtree.addNode(key: key)
+    class func preOrderSearch(key : String ,node : BTNode?, tmpParent : inout BTNode?) {
+        if node == nil {
+            return
+        }
+        else if key == node!.key {
+            tmpParent = node
+            return
+        }
+        BTNode.preOrderSearch(key : key, node: node?.left, tmpParent : &tmpParent)
+        BTNode.preOrderSearch(key : key, node: node?.right, tmpParent: &tmpParent)
+    }
+    func addNode(key : String , node : BTNode?, index : Int){
+        if key != "." {
+            if (index == 1 ){
+                let newNode = BTNode(key: key)
+                node?.left = newNode
+                return
             }
-            else{
-                let newNode = BinaryTreeNode(key: key)
-                newNode.parent = self
-                self.leftSubtree = newNode
+            else if (index == 2){
+                let newNode = BTNode(key:key)
+                node?.right = newNode
+                return
             }
         }
         else{
-            if let rightSubtree = rightSubtree {
-                rightSubtree.addNode(key: key)
+            if (index == 1 ){
+                node?.left = nil
+                return
             }
-            else{
-                let newNode = BinaryTreeNode(key: key)
-                newNode.parent = self
-                self.rightSubtree = newNode;
+            else if index == 2 {
+                node?.right = nil
+                return
             }
         }
     }
-    public func insertNodeFromRoot(key: T){
-        if let _ = self.parent {
-            print("노드 중간에 자식이 삽입될 수 없습니다. 루트 기준 key 값 기준 붕괴")
-            return
-        }
-        self.addNode(key: key)
-    }
-    class func preOrder(node : BinaryTreeNode?){
+    class func preOrder(node : BTNode?,result : inout String){
         guard let node = node else {
             return
         }
-        print(node.key)
-        BinaryTreeNode.preOrder(node: node.leftSubtree)
-        BinaryTreeNode.preOrder(node: node.rightSubtree)
+        result = result + node.key
+        BTNode.preOrder(node: node.left, result : &result)
+        BTNode.preOrder(node: node.right, result : &result)
     }
-    class func inOrder(node: BinaryTreeNode?){
+    static func inOrder(node : BTNode? , result: inout String){
+        guard let node = node else {
+            return
+        }
+        BTNode.inOrder(node: node.left, result: &result)
+        result = result + node.key
+        BTNode.inOrder(node: node.right, result: &result)
+    }
+    class func postOrder(node : BTNode? , result : inout String) {
         guard let node = node else{
             return
         }
-        BinaryTreeNode.inOrder(node: node.leftSubtree)
-        print(node.key)
-        BinaryTreeNode.inOrder(node: node.rightSubtree)
+        postOrder(node: node.left, result: &result)
+        postOrder(node: node.right, result: &result)
+        result = result + node.key
     }
-    class func postOrder(node: BinaryTreeNode?){
-        guard let node = node else{
-            return
+}
+
+var N = Int(readLine()!)!
+var tree : BTNode?
+for i in 0..<N {
+    var Node = readLine()!.split{ $0 == " "}
+    if i == 0 {
+        tree = BTNode(key: String(Node[0]))
+    }
+    var tmpParentNode : BTNode?
+    for index in 0..<Node.count{
+        if index == 0{
+            BTNode.preOrderSearch(key: String(Node[index]), node: tree, tmpParent: &tmpParentNode)
+        }else if index == 1{
+            tree!.addNode(key: String(Node[index]), node: tmpParentNode, index: index)
+        }else if index == 2{
+            tree!.addNode(key: String(Node[index]), node: tmpParentNode, index: index)
         }
-        BinaryTreeNode.postOrder(node: node.leftSubtree)
-        print(node.key)
-        BinaryTreeNode.postOrder(node: node.rightSubtree)
+        
+    }
+}
+
+for i in 0..<3{
+    var result :String = ""
+    if i == 0{
+        BTNode.preOrder(node: tree, result: &result)
+        print("\(result)")
+    }
+    else if i == 1{
+        BTNode.inOrder(node: tree, result: &result)
+        print("\(result)")
+    }
+    else {
+        BTNode.postOrder(node: tree, result: &result)
+        print("\(result)")
     }
 }

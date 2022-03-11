@@ -6,23 +6,18 @@
 //
 
 import Foundation
-
-
 let n = Int(readLine()!)!
-var array = readLine()!.split(separator: " ").map{ Int($0)!}
+var NGE = readLine()!.split(separator: " ").map{ Int($0)!}
 var stack = [Int]()
-var NGE = Array<Int>()
 
 for i in 0..<n {
-    
-    while !stack.isEmpty && (array[stack.last!] < array[i] ){
-        NGE.append(array[i])
-        stack.popLast()
+    while !stack.isEmpty && (NGE[stack.last!] < NGE[i] ){
+        NGE[stack.popLast()!] = NGE[i]
     }
     stack.append(i)
 }
 for i in stack {
-    NGE.insert(array[i], at: i)
+    NGE[i] = -1
 }
 print(NGE.map{String($0)}.joined(separator: " "))
 

@@ -7,5 +7,9 @@
 
 import Foundation
 
-print("Hello, World!")
-
+var VE = readLine()!.split(separator: " ").map{Int($0)!}
+var startVertex = Int(readLine()!)!
+var graph : [[Int]] = Array(repeating: Array(repeating: 0, count: 0), count: VE[0] + 1)
+for i in 0..<VE[1]{
+    var uvw = readLine()!.split(separator: " ").map{Int($0)!}
+}

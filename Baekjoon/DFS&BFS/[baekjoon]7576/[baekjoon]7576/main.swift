@@ -5,7 +5,6 @@ import Foundation
 
 var MN = readLine()!.split(separator: " ").map{Int($0)!}
 var farm = Array(repeating: Array(repeating: 0, count: MN[0]), count: MN[1])
-var day = farm
 
 /**
  * 튜플
@@ -19,12 +18,14 @@ var queue = [(Int,Int)]()
 for i in 0..<MN[1]{
     farm[i] = readLine()!.split(separator: " ").map{Int($0)!}
 }
+var day = farm
 
 //farm에서의 시작 지점을 찾아야한다.
 for y in 0..<MN[1]{
     for x in 0..<MN[0]{
         if farm[y][x] == 1 {
             queue.append((x,y))
+            day[y][x] = 1
         }
     }
 }
@@ -54,16 +55,16 @@ func bfs() {
             //방문하지 않는 농장이 있다면
             if farm[ny][nx] == 0 {
                 farm[ny][nx] = 1
-                day[ny][nx] = day[ny - i.1][ny - i.0] + 1
+                day[ny][nx] = day[ny - i.1][nx - i.0 ] + 1
                 queue.append((nx, ny))
-                res = day[ny][nx]
+                res = day[ny][nx] - 1
             }
         }
         index += 1
     }
 }
 bfs()
-
+// 2차원 배열의 0번째부터 마지막 열까지 특정 행을 i 로 받음(1차원 배열)
 for i in day {
     if i.contains(0){
         res = -1

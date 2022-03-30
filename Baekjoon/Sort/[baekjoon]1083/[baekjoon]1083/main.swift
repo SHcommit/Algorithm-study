@@ -12,6 +12,8 @@
  *  근데 사실 답은 5 1.  2 3 4 래;;
  */
 
+//그리디 문제?!
+
 import Foundation
 
 var n = Int(readLine()!)!

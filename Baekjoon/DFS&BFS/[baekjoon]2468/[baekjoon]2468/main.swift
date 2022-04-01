@@ -10,15 +10,20 @@
  * 안전가옥 최대인지를 구했습니다.
  */
 import Foundation
-
+//높이
 var h = Int(readLine()!)!
+//안전가옥 개수
 var safety = 1;
-
+//지역
 var land = Array(repeating: [Int](), count: h)
+//최소 높이
 var minH = 3
+//최고 높이
 var maxH = 1
+// 탐색 방향
 var direction = [(-1,0),(1,0),(0,-1),(0,1)]
 
+//지역에 정보 삽입 + maxH or minH 찾기
 for i in 0..<h{
     land[i] = readLine()!.split(separator: " ").map{
         if Int(String($0))! < minH{
@@ -30,7 +35,7 @@ for i in 0..<h{
         return Int(String($0))!
     }
 }
-
+//물에 잠길 수 있는 최소 높이부터 최대 높이까지 순차적으로 탐색
 for i in minH...maxH{
     var count = 0;
     var visited = Array(repeating: Array(repeating: false, count: h), count: h)
@@ -38,7 +43,6 @@ for i in minH...maxH{
     for y in 0..<h{
         for x in 0..<h{
             if !visited[y][x] && land[y][x] > i{
-                //visited[y][x] = true
                 dfs(x,y,i, &visited)
                 count += 1
             }

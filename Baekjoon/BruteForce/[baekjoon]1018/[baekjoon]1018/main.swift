@@ -7,54 +7,71 @@
 
 import Foundation
 
-//N == 세로 M == 가로
-var NM = readLine()!.split(separator: " ").map{Int(String($0))!}
-let width = NM[1]
-let height = NM[0]
-let minLine = 8;
-var count = 33;
+var model : Model
 
-var board = Array(repeating: [String](), count: height)
-for i in 0..<height{
-    board[i] = readLine()!.map{String($0)}
-}
+let nm = readLine()!.split(separator: " ").map{Int(String($0))!}
 
-for y in 0..<width{
-    for x in 0..<height{
-        if width - x >= minLine && height - y >= minLine{
-            let tmp = fixBoard(x: x, y: y)
-            if tmp < count{
-                count = tmp
+model = Model(width: nm[1], height: nm[0])
+
+bruteForce()
+
+print(model.count)
+
+
+func bruteForce(){
+    for y in 0..<model.height{
+        for x in 0..<model.width{
+            if model.width - x >= model.minLine && model.height - y >= model.minLine{
+                let tmp = drawBoard(x: x, y: y)
+                if tmp < model.count{
+                    model.count = tmp
+                }
+            }else{
+                break
             }
         }
     }
 }
-func fixBoard(x :Int, y: Int) -> Int{
-    var cnt = 0
-    for dy in 0..<minLine{
-        for dx in 0..<minLine{
+func drawBoard(x :Int, y: Int) -> Int{
+    var aCnt = 0
+    var bCnt = 0
+    for dy in 0..<model.minLine{
+        for dx in 0..<model.minLine{
             let ny = dy + y
             let nx = dx + x
-            //짝수인지?
-            if(dy+dx) % 2 == 0{
-                if board[dy][dx] == board[y][x]{
-                    continue
-                }
-                else if board[dy][dx] != board[y][x]{
-                    cnt += 1
-                }
-            }else if (dy + dx) % 2 == 1{
-                if board[y][x] == board[ny][nx]{
-                    cnt += 1
-                }
-                else{
-                    continue
-                }
+            
+            // w == 0 일때
+            if ((dy + dx) % 2 == 0 && model.board[ny][nx] == "B") ||
+                ((dy + dx) % 2 == 1 && model.board[ny][nx] == "W"){
+                aCnt += 1
+            }
+            if ((dy + dx) % 2 == 0 && model.board[ny][nx] == "W") ||
+                ((dy + dx) % 2 == 1 && model.board[ny][nx] == "B") {
+                bCnt += 1
             }
         }
     }
-    return count;
+    return aCnt > bCnt ? bCnt : aCnt;
 }
-print(count)
 
+
+class Model {
+    
+    var width : Int
+    var height : Int
+    var minLine : Int
+    var count : Int
+    var board : [[String]]
+    
+    init(width w: Int , height h: Int){
+        width = w
+        height = h
+        minLine = 8
+        count = 9999
+        board = Array(repeating: [String](), count: height)
+        for i in 0..<height{
+            board[i] = readLine()!.map{String($0)}
+        }
+    }
+}
 

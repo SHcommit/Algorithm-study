@@ -2,9 +2,27 @@
 //  Created by 양승현 on 2022/05/01.
 
 import Foundation
-//0 이 아닐경우 탐색을하는데, 시작좌표가 0으로 표시되서 맨 마지막의 경우 이동하지않아도 최소 2번 이동으로 출력되는데 이거만 주의하면 됨 그래서 시작좌표를 1로하고 반환을 -1 로함
+/**
+ *
+ *
+ * 주의사항
+ * 이전 코드에서는 map에서0 이 아닐경우 탐색을하는데,
+ * 시작좌표가 0으로 표시되서 맨 마지막의 경우 이동하지 않아야 할게
+ * 최소 2번 이동으로 출력되는데 ( 마지막 input 답과 다름)
+ * 이거만 주의하면 된다
+ *  그래서 시작좌표를 1로하고 반환을 mpa[좌표] - 1 로 했다.
+ */
+
 solution()
 
+/**
+ * res == 값 저장
+ * testCase 옵셔널 바인딩으로 값 받음
+ * coord에 시작점, 도착점 저장 ( inputSeq함수를 통해 값 대입)
+ * length에 체스판 크기 저장
+ * map에 원하는 도착지점까지 bfs탐색할 때 방문했는지를 표시함(0이면 탐색 x)
+ * BFS탐색을 통해 값 도출
+ */
 func solution(){
     var res = ""
     let testCase : Int = inputData()
@@ -23,7 +41,12 @@ func solution(){
     }
     print(res)
 }
-
+/**
+ * direction = 나이트가 이동할 수 있는 곳 물론 현재 나이트의 위치에서 이 값을 더해야 이동할 값이나옴
+ * start X, Y 처음 나이트가 위치한 좌표
+ * destination X, Y 도착 좌표
+ * index == queue를 훑는데 사용 . dequeue할때 시간이 오래 걸릴까봐 index를 통해 탐색함
+ */
 func BFS(map : inout [[Int]], array: [(Int,Int)]) -> Int{
     let direction = [(2,1),(1,2),(-2,1),(-1,2),(2,-1),(1,-2),(-2,-1),(-1,-2)]
     
@@ -31,8 +54,9 @@ func BFS(map : inout [[Int]], array: [(Int,Int)]) -> Int{
     let startY = array[0].1
     let destinationX = array[1].0
     let destinationY = array[1].1
-    
+
     var index = 0
+    //맨 위의 주의사항으로 인해
     map[startY][startX] = 1
     var queue = [(startX,startY)]
     
@@ -47,11 +71,14 @@ func BFS(map : inout [[Int]], array: [(Int,Int)]) -> Int{
             if nx < 0 || nx > map.count - 1 || ny < 0 || ny > map.count - 1 {
                 continue
             }
+            //방문 x 이면
             if map[ny][nx] == 0 {
+                //현재 좌표 x,y에서 나이트가 nx, ny로 이동함을 +1 로 표시
                 map[ny][nx] = map[y][x] + 1
+                //그 후 큐에 추가
                 queue.append((nx,ny))
             }
-            
+            //도착했는가?
             if nx == destinationX && ny == destinationY{
                 return map[ny][nx] - 1
             }

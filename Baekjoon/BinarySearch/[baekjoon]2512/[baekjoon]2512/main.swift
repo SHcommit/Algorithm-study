@@ -1,11 +1,16 @@
+// https://dev-with-precious-dreams.tistory.com/entry/%EB%B0%B1%EC%A4%80Swift-2512-%EC%98%88%EC%82%B0
 import Foundation
-
+/**
+ * result = 할당된 예산 값들이 최대값의 경우가 될 상한 액
+ * left     = 상한액 될 수 있는 최소 금액
+ * right   = 상한액 될 수 있는 최대 금액
+ * requestBudget()을 만족시켰을 때 특정 상한액의 할당된 금액
+ */
 func binary_search(list : [Int], target : Int){
     
     var result       = 0
     var left         = 1
     var right        = list[list.count - 1]
-    //할당된 예산값들의 최대값이 저장됨
     var assignBudget = 0
     
     while( left <= right){
@@ -13,6 +18,7 @@ func binary_search(list : [Int], target : Int){
         let mid        = ( left + right )  / 2
         
         if requestBudget(list: list, target: target, budget: mid, tempBudget : &tempBudget) {
+            //새로 구한 예산값들이 국가 예산과 가까운 값이라면 그 값과, 상한액을 저장!
             if tempBudget >= assignBudget{
                 assignBudget = tempBudget
                 result       = mid
@@ -26,6 +32,13 @@ func binary_search(list : [Int], target : Int){
     
     print(result)
 }
+/**
+ * 매개변수
+ *  list       = 지역 별 요청 예산
+ *  target  = 상한액
+ *  budget = 국가 예산
+ *  tempBudget = 지역별 예산의 합
+ */
 func requestBudget(list : [Int], target : Int, budget : Int, tempBudget : inout Int) -> Bool{
     var totalBudget = 0
     

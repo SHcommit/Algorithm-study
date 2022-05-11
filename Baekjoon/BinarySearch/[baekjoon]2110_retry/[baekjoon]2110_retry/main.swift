@@ -42,7 +42,7 @@ func binary_search(house : [Int], installRouter C : Int) -> Int{
     while(left <= right){
         let mid = (left + right) / 2
         if isInstall(width: mid,installRouter: C,house: house) {
-            //가능한 큰거 출력하는거니까
+            // 중요!! 가능한 큰거 출력하는거니까
             if mid > answer{
                 answer = mid
             }
@@ -55,7 +55,7 @@ func binary_search(house : [Int], installRouter C : Int) -> Int{
     }
     return answer
 }
-//아 left == 1로해야함,,ㅋㅋ
+//아 left == 1로해야함,,
 //여기서 라우터를 길이에 맞게 설치하는 방법은
 //일단 house[0]은 무저건 설치!! 그후에
 //house[i] - house[i-1]이 라우트 설치간격을 넘는가? 설치됨,, 그럼 이제 설치된게 house[i-1]이됨..

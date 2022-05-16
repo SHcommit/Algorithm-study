@@ -1,11 +1,21 @@
-//
-//  main.swift
-//  [baekjooj]1436
-//
-//  Created by 양승현 on 2022/05/15.
-//
-
 import Foundation
 
-print("Hello, World!")
+func BOJ_1436(){
+    let n = Int(readLine()!)!
+    
+    var count = 0
+    for i in 666...10000000{
+        var num = i
+        while(num >= 666){
+            if num % 1000 == 666{
+                count += 1
+                break
+            }
+            num /= 10
+        }
+        if count == n {print(i); return;}
+    }
+}
 
+
+BOJ_1436()

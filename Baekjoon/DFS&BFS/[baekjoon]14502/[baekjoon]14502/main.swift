@@ -4,6 +4,7 @@
 
 import Foundation
 
+//맵 안에서 벽 1개 설치할 좌표
 class point
 {
     var x : Int
@@ -14,6 +15,7 @@ class point
         self.y = y
     }
 }
+// 맵 안에서 벽 3개 설치 정보를 담은 클래스
 class pointCluster
 {
     var point : [point]
@@ -24,6 +26,7 @@ class pointCluster
         point.append(p3)
     }
 }
+// 맵 지역을 벗어나 탐색하는가?
 func isOutOfEdge(_ x : Int, _ y : Int, _ width: Int, _ height : Int, _ map : [[Int]]) -> Bool
 {
     if x < 0 || x > width - 1 || y < 0 || y > height - 1
@@ -32,6 +35,11 @@ func isOutOfEdge(_ x : Int, _ y : Int, _ width: Int, _ height : Int, _ map : [[I
     }
     return false
 }
+/**
+ * 3개의 설치 벽 좌표를 받아  Map을 복사한 testMap에 벽을 3개 설치
+ * 이후 바이러스가 있는 구간 탐색 후
+ * 안전영역 개수 반환
+ */
 func virus(width : Int, height : Int, pArray : pointCluster, map : [[Int]]) -> Int
 {
     var testMap         = map
@@ -52,6 +60,11 @@ func virus(width : Int, height : Int, pArray : pointCluster, map : [[Int]]) -> I
     }
     return SaveArea(width: width, height: height, map: testMap)
 }
+
+/**
+ * 주어진 좌표를 통해 바이러스가 전파(2를 map에 심음)
+ * 이때 bfs 활용
+ */
 func spreadVirus(x : Int, y : Int, width : Int , height : Int, map : inout [[Int]], visit : inout [[Bool]])
 {
     var queue     = [(x,y)]
@@ -78,6 +91,7 @@ func spreadVirus(x : Int, y : Int, width : Int , height : Int, map : inout [[Int
         }
     }
 }
+//완전 탐색으로 남은 구간 탐색 후 안전 영역 개수 리턴
 func SaveArea(width : Int, height : Int, map : [[Int]]) -> Int
 {
     var count = 0
@@ -93,6 +107,12 @@ func SaveArea(width : Int, height : Int, map : [[Int]]) -> Int
     }
     return count
 }
+/**
+ * 이 구간이 제일 어려웠습니다.
+ * 가장 첫번째 설치해야 할 벽부터 생각하면서 포문을 풀어나갔는데,,
+ * 이 방식이 맞나 모르겠지만 제가 설계한 코드로써는 벽끼리 겹치지 않으면서 3개의 벽을 설치하기 위해
+ * (한개의 벽 설치 하기 위해서) 각각 이중 포문을 도입한 것입니다.
+ */
 func BOJ_14502()
 {
     let HW      = readLine()!.split(separator: " ").map{Int(String($0))!}

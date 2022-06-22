@@ -133,7 +133,7 @@ func BOJ_14502()
                             {
                                 for x3 in 0..<width
                                 {
-                                    if x2 == x3 && y2 == y3 {continue}
+                                    if (x1 == x3 && y1 == y3) || (x2 == x3 && y2 == y3) {continue}
                                     if map[y3][x3] == 0
                                     {
                                         let pCluster = pointCluster(point(x1,y1), point(x2, y2), point(x3,y3))

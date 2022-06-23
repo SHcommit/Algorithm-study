@@ -1,4 +1,4 @@
-//https://www.acmicpc.net/problem/3055
+ //https://www.acmicpc.net/problem/3055
 
 import Foundation
 /**
@@ -25,7 +25,19 @@ class rect
         width  = HW[1]
     }
 }
-
+func testMap(rect : rect, forest: [[String]])
+{
+    print()
+    for y in 0..<rect.height
+    {
+        var res = ""
+        for x in 0..<rect.width
+        {
+            res += forest[y][x] + " "
+        }
+        print(res)
+    }
+}
 func isOutEdge(x : Int, y : Int, rect : rect) -> Bool
 {
     if x < 0 || x > rect.width - 1 || y < 0 || y > rect.height - 1
@@ -34,13 +46,14 @@ func isOutEdge(x : Int, y : Int, rect : rect) -> Bool
     }
     return false
 }
-func flowing(rect : rect, forest : inout [[String]],visit : inout [[Int]], fallIn : inout Bool, arrive : inout Bool, queue: inout [(Int,Int)], index : inout Int, day : Int)
+func flowing(_ rect : rect, _ forest : inout [[String]], _ visit : inout [[Int]], _ fallIn : inout Bool, _ arrive : inout Bool, _ queue: inout [(Int,Int)], _ index : inout Int, day : Int)
 {
     let direction = [(-1,0),(1,0),(0,1),(0,-1)]
     while queue.count != index
     {
         let (curX, curY) = queue[index]
-        if visit[curY][curX] != day
+        
+        if visit[curY][curX] != day || forest[curY][curX] == "D"
         {
             break
         }
@@ -66,7 +79,60 @@ func flowing(rect : rect, forest : inout [[String]],visit : inout [[Int]], fallI
         }
     }
 }
-
+func escapeOrFlow(rect : rect ,forest : inout [[String]], visit : inout [[Int]], fallIn : inout Bool, arrive: inout Bool, queue: inout [(Int,Int)] , index : inout Int, day : Int)
+{
+    let direction = [(-1,0),(1,0),(0,1),(0,-1)]
+    while(queue.count != index)
+    {
+        let (curX, curY) = queue[index]
+        if visit[curY][curX] != day
+        {
+            break
+        }
+        index += 1
+        for (dx,dy) in direction
+        {
+            let (nx,ny) = (curX + dx, curY + dy)
+            if nx < 0 || nx > rect.width - 1 || ny < 0 || ny > rect.height - 1{ continue }
+            if forest[curY][curX] == forest[ny][nx]
+            {
+                break
+            }
+            if visit[ny][nx] == 0 && forest[ny][nx] == "D" && forest[curY][curX] == "S"
+            {
+                visit[ny][nx] = visit[curY][curX] + 1
+                arrive = true
+                fallIn = false
+                return
+            }
+            if visit[ny][nx] == 0 && forest[ny][nx] == "."
+            {
+                if visit[curY][curX] == day
+                {
+                    if forest[curY][curX] == "S"
+                    {
+                        queue.append((nx,ny))
+                        visit[ny][nx] = visit[curY][curX] + 1
+                        forest[ny][nx] = "S"
+                        testMap(rect: rect, forest: forest)
+                        continue
+                    }else if forest[curY][curX] == "*"
+                    {
+                        queue.append((nx,ny))
+                        visit[ny][nx] = visit[curY][curX] + 1
+                        forest[ny][nx] = "*"
+                        testMap(rect: rect, forest: forest)
+                        continue
+                    }
+                }
+            }else if forest[ny][nx] == "S" && forest[curY][curX] == "*" && (visit[ny][nx] == visit[curY][curX] + 1)
+            {
+                forest[ny][nx] = "*"
+                testMap(rect: rect, forest: forest)
+            }
+        }
+    }
+}
 func escape(rect : rect ,forest : inout [[String]], visit : inout [[Int]], fallIn : inout Bool, arrive: inout Bool, queue: inout [(Int,Int)] , index : inout Int, day : Int)
 {
     let direction = [(-1,0),(1,0),(0,1),(0,-1)]
@@ -115,48 +181,58 @@ func BOJ_3055()
     var arrive       = false
     var forest       = Array(repeating: [String](), count: r.height)
     var escapeStart  = (0,0)
-    var escapeVisit  = Array(repeating: Array(repeating: 0, count: r.width), count: r.height)
-    var escapeQueue  = [(Int,Int)]()
+    //var escapeVisit  = Array(repeating: Array(repeating: 0, count: r.width), count: r.height)
+    //var escapeQueue  = [(Int,Int)]()
     var escapeIndex  = 0
-    var flowingVisit = escapeVisit
+    //var flowingVisit = escapeVisit
     var flowingStart = (0,0)
-    var flowingQueue = [(Int,Int)]()
+    //var flowingQueue = [(Int,Int)]()
     var flowingIndex = 0
     var day          = 0
-    
+    var visit        = Array(repeating: Array(repeating: 0, count: r.width), count: r.height)
+    var queue        = [(Int,Int)]()
+    var index        = 0
     for y in 0..<r.height
     {
         forest[y] = readLine()!.map{String($0)}
     }
+    
     for y in 0..<r.height
     {
         for x in 0..<r.width
         {
-            if forest[y][x] == "D"
+//            if forest[y][x] == "D"
+//            {
+//                escapeStart = (x,y)
+//            }
+//            if forest[y][x] == "*"
+//            {
+//                flowingStart = (x,y)
+//            }
+            if forest[y][x] == "S" || forest[y][x] == "*"
             {
-                escapeStart = (x,y)
-            }
-            if forest[y][x] == "*"
-            {
-                flowingStart = (x,y)
+                queue.append((x,y))
+                visit[y][x] = 1
             }
         }
     }
-    
-    escapeVisit[escapeStart.1][escapeStart.0] = 1
-    flowingVisit[flowingStart.1][flowingStart.0] = 1
-    escapeQueue.append(escapeStart)
-    flowingQueue.append(flowingStart)
 
+//    escapeVisit[escapeStart.1][escapeStart.0] = 1
+//    flowingVisit[flowingStart.1][flowingStart.0] = 1
+//    escapeQueue.append(escapeStart)
+//    flowingQueue.append(flowingStart)
+    
     while !arrive
     {
         day += 1
-        escape(rect : r, forest: &forest, visit: &escapeVisit, fallIn: &fallIn, arrive: &arrive,queue: &escapeQueue, index: &escapeIndex,day: day)
-        if arrive
-        {
-             break
-        }
-        flowing(rect : r, forest: &forest, visit: &flowingVisit, fallIn: &fallIn, arrive: &arrive, queue: &flowingQueue,index: &flowingIndex, day: day)
+//        escape(rect : r, forest: &forest, visit: &visit, fallIn: &fallIn, arrive: &arrive,queue: &queue, index: &escapeIndex,day: day)
+//        if arrive
+//        {
+//             break
+//        }
+//        flowing(rect : r, forest: &forest, visit: &visit, fallIn: &fallIn, arrive: &arrive, queue: &queue,index: &flowingIndex, day: day)
+        testMap(rect: r, forest: forest)
+        escapeOrFlow(rect: r, forest: &forest, visit: &visit, fallIn: &fallIn, arrive: &arrive, queue: &queue, index: &index, day: day)
     }
     print(fallIn == true ? "KAKTUS" : "\(day)")
 }

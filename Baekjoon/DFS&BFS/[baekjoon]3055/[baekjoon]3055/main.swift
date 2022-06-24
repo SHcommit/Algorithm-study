@@ -1,7 +1,7 @@
 import Foundation
 
 typealias qElement = (p : point, time: Int)
-
+// 좌표
 class point
 {
     var x : Int
@@ -12,6 +12,7 @@ class point
         self.y = y
     }
 }
+//고슴도치 이동 좌표와 물이 차는 위치 좌표 담을 큐
 class queue
 {
     var q : [qElement]
@@ -22,6 +23,9 @@ class queue
         index = 0
     }
 }
+/**
+ * forest 크기
+ */
 class rect
 {
     var width  : Int
@@ -41,6 +45,7 @@ class rect
     }
 }
 
+//범위 벗어났는가?
 func isOutForest(p : point, rect: rect) -> Bool
 {
     if p.x < 0 || p.x > rect.width - 1 || p.y < 0 || p.y > rect.height - 1
@@ -49,6 +54,10 @@ func isOutForest(p : point, rect: rect) -> Bool
     }
     return false
 }
+/**
+ * 고슴도치의 목숨이 담긴 함수
+ * 이 함수에서 while문이 끝나기 전까지 return 을 안하면 고슴도치의 운명은.... ㅠㅠ
+ */
 func escape(rect : rect, time : inout Int,fallIn : inout Bool, dochiQ : inout queue, waterQ : inout queue, forest : [[String]], direction : [(Int,Int)], visited : inout [[Bool]])
 {
     
@@ -80,6 +89,7 @@ func escape(rect : rect, time : inout Int,fallIn : inout Bool, dochiQ : inout qu
     }
     fallIn = true
 }
+// 숲에 매 분마다 물이 (주위로)범람함
 func flood(rect : rect, time : Int, fallIn : inout Bool, queue : inout queue, forest : [[String]], direction : [(Int,Int)], visited : inout [[Bool]])
 {
     while queue.q.count != queue.index
@@ -101,6 +111,17 @@ func flood(rect : rect, time : Int, fallIn : inout Bool, queue : inout queue, fo
         }
     }
 }
+
+/**
+ * @param direction : 특정 좌표가 이동할 수 있는 범위
+ * @param rect         : 숲(맵) 크기 info
+ * @param forest      : 숲(맵)
+ * @param visited     : 방문했는가?
+ * @param dochiQ    : 도치가 이동할 곳
+ * @param waterQ    : 물이 범람하는 곳
+ * @param fallIn        : 도치가 물에 빠졌는가?
+ * @param time        : 분 체크
+ */
 func BOJ_3055()
 {
     let direction = [(-1,0),(1,0),(0,1),(0,-1)]
@@ -113,6 +134,7 @@ func BOJ_3055()
     var fallIn    = false
     var time      = 0
     
+    // 도치 위치와 물 위치 받음
     for y in 0..<rect.height
     {
         if let col = readLine()
@@ -131,6 +153,8 @@ func BOJ_3055()
             }
         }
     }
+    
+    //도치의 여정
     escape(rect: rect, time: &time, fallIn: &fallIn, dochiQ: &dochiQ, waterQ: &waterQ, forest: forest, direction: direction, visited: &visited)
     
     print(fallIn == true ? "KAKTUS" : "\(time)")

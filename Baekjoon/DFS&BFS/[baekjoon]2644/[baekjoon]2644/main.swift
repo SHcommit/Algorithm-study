@@ -1,4 +1,7 @@
 import Foundation
+
+//음.. 트리는 이문제는 트리로 표현하기까지가 좀 시간이 걸렸어
+// 근데 뭐 딕셔너리보다 동적 배열도 ㄱㅊ은거같규~,,~
 typealias relation = (Int, Int)
 
 func bfs(res : inout Int, find : relation,n : Int, list : [[Int]])

@@ -10,13 +10,10 @@ func BOJ_1149()
     }
     for i in 2...n
     {
-        arr[i][0] += arr[i - 1][1] < arr[i - 1][2] ? arr[i - 1][1] : arr[i - 1][2]
-        arr[i][1] += arr[i - 1][2] < arr[i - 1][0] ? arr[i - 1][2] : arr[i - 1][0]
-        arr[i][2] += arr[i - 1][0] < arr[i - 1][1] ? arr[i - 1][0] : arr[i - 1][1]
+        arr[i][0] += min(arr[i-1][1],arr[i - 1][2])
+        arr[i][1] += min(arr[i-1][2], arr[i - 1][0])
+        arr[i][2] += min(arr[i-1][0],arr[i-1][1])
     }
-    var min = arr[n][0]
-    min = min < arr[n][1] ? min : arr[n][1]
-    min = min < arr[n][2] ? min : arr[n][2]
-    print(min)
+    print(arr[n].min()!)
 }
 BOJ_1149()

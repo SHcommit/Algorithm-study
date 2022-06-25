@@ -8,13 +8,6 @@ func BOJ_1149()
     {
         arr[i] = readLine()!.split(separator: " ").map{Int($0)!}
     }
-    if n == 2
-    {
-        arr[n][0] += arr[n-1][1]
-        arr[n][1] += arr[n-1][0]
-        print(arr[n][0] < arr[n][1] ? arr[n][0] : arr[n][1])
-        return
-    }
     for i in 2...n
     {
         arr[i][0] += arr[i - 1][1] < arr[i - 1][2] ? arr[i - 1][1] : arr[i - 1][2]

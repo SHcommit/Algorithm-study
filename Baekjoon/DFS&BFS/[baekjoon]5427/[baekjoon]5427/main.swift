@@ -42,7 +42,7 @@ func fire(_ width : Int, _ height : Int, _ x: Int, _ y : Int, _ prevTime : Int, 
 func escape(_ width : Int, _ height : Int, _ time : inout Int, _ res : inout String, _ isEscape : inout Bool, _ visited: inout [[Bool]], _ building : inout [[String]], _ queue : inout [qElement])
 {
     let direction = [(-1,0),(1,0),(0,1),(0,-1)]
-    while !queue.isEmpty || !isEscape
+    while !queue.isEmpty
     {
         let (curX,curY,prevTime) = queue.removeFirst()
         if prevTime == time
@@ -52,15 +52,18 @@ func escape(_ width : Int, _ height : Int, _ time : inout Int, _ res : inout Str
         if building[curY][curX] == "*"
         {
             fire(width, height, curX, curY,prevTime, time, &visited, &building, &queue)
-            for y in 0..<height
-            {
-                var test = ""
-                for x in 0..<width
-                {
-                    test += building[y][x] + " "
-                }
-                print(test)
-            }
+            
+//            var _ = {
+//                for y in 0..<height
+//                    {
+//                    var test = ""
+//                    for x in 0..<width
+//                        {
+//                            test += building[y][x] + " "
+//                        }
+//                    print(test)
+//                }
+//            }()
         }
         for (dx, dy) in direction
         {

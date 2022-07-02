@@ -10,6 +10,13 @@ class Q
         index = 0
     }
 }
+/**
+ * @param totalFloor   : 총 F층
+ * @param startFloor   : 시작 S층
+ * @param arriveFloor : 도착 위치 G층
+ * @param upFloor      : 한번에 올라갈 수 있는 U층
+ * @param DownFloor : 한번에 내려갈 수 있는 G층
+ */
 class FSGUD
 {
     let totalFloor  : Int
@@ -27,6 +34,8 @@ class FSGUD
         DownFloor   = FSGUD[4]
     }
 }
+// BFS탐색을 통해 queue의 끝까지 각각 층을 이동했을 때에도
+// if curFloor == .arriveFloor를 만족시키지 못하면 G층에 도달하지 못한 것입니다.
 func BFS(_ info : FSGUD, _ res : inout String)
 {
     var q       = Q()

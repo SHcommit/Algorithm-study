@@ -135,6 +135,4 @@ func BOJ_18405()
     }
     spreadVirus(n, kind,s,sPoint, &map, &qList)
 }
-BOJ_18405()//nono test
-
-//
+BOJ_18405()

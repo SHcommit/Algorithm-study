@@ -1,3 +1,7 @@
+/*
+    https://dev-with-precious-dreams.tistory.com/entry/%EB%B0%B1%EC%A4%80Swift-18405-%EA%B2%BD%EC%9F%81%EC%A0%81-%EC%A0%84%EC%97%BC
+ */
+
 import Foundation
 
 // 탐색할 x좌표, y좌표, 탐색 당시의 시간 저장

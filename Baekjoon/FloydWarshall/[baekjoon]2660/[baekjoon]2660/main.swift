@@ -1,4 +1,10 @@
 import Foundation
+/**
+ * 이 문제는 특정 노드를 기준으로 연관된 graph에 노드들을 전체 탐색해 나갈때
+ * 특정노드와 가장 가까이있는 노드에 값을 +1을 한다.
+ * 이후 그 가까이 있는 노드들을 기준으로 탐색할 수 있는 새로운 노드들의 가중치를 +1을 한다.. 의 반복이다.
+ * 최종적으로 가중치가 가장 높은 값이 특정 노드의 회원 점수로 분류된다.
+ */
 typealias Element = (node : Int, value : Int)
 func BFS(_ node : Int, _ n : Int, _ dist : inout [Int], _ list : [[Int]])
 {

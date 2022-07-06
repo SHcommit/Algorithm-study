@@ -41,17 +41,27 @@ func BFS(_ start : Int, _ end : Int, res : inout String)
     let q          = Q()
     
     q.queue.append((start,""))
+    /**
+     * 여기서 if curNumber == end {} 를 하고 아래의 if nNumver == end{} 를 사용하지 않으면 시간이 더 걸린다.
+     */
     while q.queue.count != q.index
     {
         let (curNumber, command) = q.queue[q.index]
         visited[curNumber] = true
         q.index += 1
-        if curNumber == end
+        
+        
+//        if curNumber == end
+//        {
+//            res += command + "\n"
+//            return
+//        }
+        var nNumber = calculator.D(curNumber)
+        if nNumber == end
         {
-            res += command + "\n"
+            res += command + "D\n"
             return
         }
-        var nNumber = calculator.D(curNumber)
         if !visited[nNumber]
         {
             q.queue.append((nNumber, command + "D"))
@@ -59,6 +69,11 @@ func BFS(_ start : Int, _ end : Int, res : inout String)
         }
         
         nNumber = calculator.S(curNumber)
+        if nNumber == end
+        {
+            res += command + "S\n"
+            return
+        }
         if !visited[nNumber]
         {
             q.queue.append((nNumber, command + "S"))
@@ -66,6 +81,11 @@ func BFS(_ start : Int, _ end : Int, res : inout String)
         }
         
         nNumber = calculator.L(curNumber)
+        if nNumber == end
+        {
+            res += command + "L\n"
+            return
+        }
         if !visited[nNumber]
         {
             q.queue.append((nNumber, command + "L"))
@@ -73,6 +93,11 @@ func BFS(_ start : Int, _ end : Int, res : inout String)
         }
         
         nNumber = calculator.R(curNumber)
+        if nNumber == end
+        {
+            res += command + "R\n"
+            return
+        }
         if !visited[nNumber]
         {
             q.queue.append((nNumber, command + "R"))

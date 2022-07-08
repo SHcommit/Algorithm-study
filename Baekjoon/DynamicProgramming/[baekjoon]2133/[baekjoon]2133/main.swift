@@ -1,4 +1,5 @@
 import Foundation
+//https://dev-with-precious-dreams.tistory.com/entry/%EB%B0%B1%EC%A4%80Swift-2133-%ED%83%80%EC%9D%BC-%EC%B1%84%EC%9A%B0%EA%B8%B0-%EB%AC%B8%EC%A0%9C-%EC%99%84%EC%A0%84-%EB%BF%8C%EC%88%98%EA%B8%B0
 /**
  * 이 문제 풀면서 변수는.....
  * n==4이면

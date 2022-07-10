@@ -1,5 +1,11 @@
 import Foundation
+// 좌 우 상 하 대각선 탐색
 let direction = [(-1,0),(1,0),(0,1),(0,-1),(-1,-1),(-1,1),(1,-1),(1,1)]
+/**
+ * height = N
+ * width  = M
+ * map   = 상어 1 과 상어가 없는 0이 들어있는 맵 정보
+ */
 class mapInfo
 {
     let height : Int
@@ -17,6 +23,9 @@ class mapInfo
         }
     }
 }
+/**
+ * 메모리 초과 걸리지 않도록 이전에 탐색한 곳은 visited 체크를 통해 더이상 큐에 넣지 않았다.
+ */
 func BFS(_ x : Int,_ y : Int, _ m : mapInfo, _ res : inout Int)
 {
     var visited   = Array(repeating: Array(repeating: false, count: m.width), count: m.height)
@@ -48,10 +57,12 @@ func BFS(_ x : Int,_ y : Int, _ m : mapInfo, _ res : inout Int)
     }
     
 }
+
 func BOJ_17086()
 {
     var result = 0
     let mapInfo = mapInfo()
+    //완전 탐색
     for y in 0..<mapInfo.height
     {
         for x in 0..<mapInfo.width

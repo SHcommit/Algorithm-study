@@ -51,49 +51,49 @@ func airChange(_ coord : Coord,_ m : inout mapInfo, _ visited : inout [[Bool]])
     }
 }
 
-func isChangingCheeseAir(_ coord : Coord,_ isEsposedAir : inout Bool,_ map : inout mapInfo,_ visited : inout [[Bool]])
-{
-    for (dx,dy) in direction
-    {
-        let (nx,ny) = (coord.x+dx,coord.y+dy)
-        if map.map[ny][nx] == -1
-        {
-            isEsposedAir = true
-            return
-        }
-    }
-}
+//func isChangingCheeseAir(_ coord : Coord,_ isEsposedAir : inout Bool,_ map : inout mapInfo,_ visited : inout [[Bool]])
+//{
+//    for (dx,dy) in direction
+//    {
+//        let (nx,ny) = (coord.x+dx,coord.y+dy)
+//        if map.map[ny][nx] == -1
+//        {
+//            isEsposedAir = true
+//            return
+//        }
+//    }
+//}
 
-func changeCheeseAir(_ coord : Coord, _ m : inout mapInfo, _ visited : inout [[Bool]])
-{
-    var queue        = [coord]
-    var index        = 0
-    var isExposedAir = false
-    queue.append(coord)
-    
-    while queue.count != index
-    {
-        let (curX,curY) = queue[index]
-        index += 1
-        for (dx,dy) in direction
-        {
-            let (nx,ny) = (curX+dx,curY+dy)
-            if !visited[ny][nx] && m.map[ny][nx] == 0
-            {
-                visited[ny][nx] = true
-                queue.append((nx,ny))
-                isChangingCheeseAir((nx,ny), &isExposedAir, &m, &visited)
-            }
-        }
-    }
-    if isExposedAir
-    {
-        for (x,y) in queue
-        {
-            m.map[y][x] = -1
-        }
-    }
-}
+//func changeCheeseAir(_ coord : Coord, _ m : inout mapInfo, _ visited : inout [[Bool]])
+//{
+//    var queue        = [coord]
+//    var index        = 0
+//    var isExposedAir = false
+//    queue.append(coord)
+//
+//    while queue.count != index
+//    {
+//        let (curX,curY) = queue[index]
+//        index += 1
+//        for (dx,dy) in direction
+//        {
+//            let (nx,ny) = (curX+dx,curY+dy)
+//            if !visited[ny][nx] && m.map[ny][nx] == 0
+//            {
+//                visited[ny][nx] = true
+//                queue.append((nx,ny))
+//                isChangingCheeseAir((nx,ny), &isExposedAir, &m, &visited)
+//            }
+//        }
+//    }
+//    if isExposedAir
+//    {
+//        for (x,y) in queue
+//        {
+//            m.map[y][x] = -1
+//        }
+//    }
+//}
 
 func isMelting(_ coord : Coord, _ map : mapInfo) -> Bool
 {
@@ -113,7 +113,7 @@ func isMelting(_ coord : Coord, _ map : mapInfo) -> Bool
     return false
 }
 
-func MeltingCheese(_ coord : Coord, _ m : inout mapInfo, _ visited : inout [[Bool]], _ airQueue : inout [Coord])
+func MeltingCheese(_ coord : Coord, _ m : inout mapInfo, _ visited : inout [[Bool]])
 {
     var queue = [Element]()
     var index = 0
@@ -137,10 +137,6 @@ func MeltingCheese(_ coord : Coord, _ m : inout mapInfo, _ visited : inout [[Boo
                 {
                     queue.append(((nx,ny),false))
                 }
-            }else if !visited[ny][nx] && m.map[ny][nx] == 0
-            {
-                visited[ny][nx] = true
-                airQueue.append((nx,ny))
             }
         }
     }
@@ -158,8 +154,8 @@ func BOJ_2638()
     var m         = mapInfo()
     var time      = 0
     var isRunning = true
-    var airQueue  = [Coord]()
-    var airIndex  = 0
+//    var airQueue  = [Coord]()
+//    var airIndex  = 0
     while isRunning
     {
         var visited  = Array(repeating: Array(repeating:false, count:m.width), count : m.height)
@@ -175,7 +171,7 @@ func BOJ_2638()
                 {
                     visited[y][x] = true
                     isRunning     = true
-                    MeltingCheese((x,y), &m, &visited,&airQueue)
+                    MeltingCheese((x,y), &m, &visited)
                 }
             }
         }
@@ -189,20 +185,6 @@ func BOJ_2638()
 //                changeCheeseAir((x,y), &m, &airCheck)
 //            }
 //        }
-        print()
-        let _ =
-        {
-            for y in 0..<m.height
-            {
-                var temp = ""
-                for x in 0..<m.width
-                {
-                    temp += m.map[y][x] == 1 ? " \(m.map[y][x]) " : "\(m.map[y][x]) "
-                }
-                print(temp)
-            }
-        }
-        print()
     }
     print(time - 1)
 }

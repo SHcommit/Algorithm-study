@@ -1,7 +1,11 @@
 import Foundation
+//탐색할 좌표
 typealias Coord         = (x : Int, y : Int)
+//치즈 탐색 할 좌표와 그 좌표가 녹아야 하는지 여부
 typealias Element       = (point : Coord, isMelt: Bool)
+//탐색 방향
 let direction : [Coord] = [(-1,0),(1,0),(0,1),(0,-1)]
+//맵 정보
 class mapInfo
 {
     let width  : Int
@@ -19,6 +23,7 @@ class mapInfo
         }
     }
 }
+//외부공기와 마주한 내부 공기가 있는가?
 func airChange(_ coord : Coord,_ m : inout mapInfo, _ visited : inout [[Bool]])
 {
     var queue = [(coord.x,coord.y)]
@@ -36,6 +41,7 @@ func airChange(_ coord : Coord,_ m : inout mapInfo, _ visited : inout [[Bool]])
         {
             let (nx,ny) = (curX+dx,curY+dy)
             if nx<0||nx>m.width-1||ny<0||ny>m.height-1 { continue }
+            //이 조건은 외부공기와 마주한 내부 공기이다.
             if !visited[ny][nx] && m.map[ny][nx] == 0
             {
                 visited[ny][nx] = true
@@ -51,50 +57,7 @@ func airChange(_ coord : Coord,_ m : inout mapInfo, _ visited : inout [[Bool]])
     }
 }
 
-//func isChangingCheeseAir(_ coord : Coord,_ isEsposedAir : inout Bool,_ map : inout mapInfo,_ visited : inout [[Bool]])
-//{
-//    for (dx,dy) in direction
-//    {
-//        let (nx,ny) = (coord.x+dx,coord.y+dy)
-//        if map.map[ny][nx] == -1
-//        {
-//            isEsposedAir = true
-//            return
-//        }
-//    }
-//}
-
-//func changeCheeseAir(_ coord : Coord, _ m : inout mapInfo, _ visited : inout [[Bool]])
-//{
-//    var queue        = [coord]
-//    var index        = 0
-//    var isExposedAir = false
-//    queue.append(coord)
-//
-//    while queue.count != index
-//    {
-//        let (curX,curY) = queue[index]
-//        index += 1
-//        for (dx,dy) in direction
-//        {
-//            let (nx,ny) = (curX+dx,curY+dy)
-//            if !visited[ny][nx] && m.map[ny][nx] == 0
-//            {
-//                visited[ny][nx] = true
-//                queue.append((nx,ny))
-//                isChangingCheeseAir((nx,ny), &isExposedAir, &m, &visited)
-//            }
-//        }
-//    }
-//    if isExposedAir
-//    {
-//        for (x,y) in queue
-//        {
-//            m.map[y][x] = -1
-//        }
-//    }
-//}
-
+// 치즈가 녹을 가능성이 있는가?
 func isMelting(_ coord : Coord, _ map : mapInfo) -> Bool
 {
     var cnt = 0
@@ -112,7 +75,7 @@ func isMelting(_ coord : Coord, _ map : mapInfo) -> Bool
     }
     return false
 }
-
+//치즈를 탐색하며 치즈가 녹는지의 여부를 체크해 치즈를 녹인다.
 func MeltingCheese(_ coord : Coord, _ m : inout mapInfo, _ visited : inout [[Bool]])
 {
     var queue = [Element]()
@@ -140,6 +103,7 @@ func MeltingCheese(_ coord : Coord, _ m : inout mapInfo, _ visited : inout [[Boo
             }
         }
     }
+    //녹을 치즈들을 녹인다.
     for ((x,y),isMelt) in queue
     {
         if isMelt
@@ -154,15 +118,13 @@ func BOJ_2638()
     var m         = mapInfo()
     var time      = 0
     var isRunning = true
-//    var airQueue  = [Coord]()
-//    var airIndex  = 0
     while isRunning
     {
         var visited  = Array(repeating: Array(repeating:false, count:m.width), count : m.height)
         airChange((0,0), &m, &visited)
         time += 1
-        //var airCheck = visited
         isRunning    = false
+        //완전탐색을 통해 치즈를 찾는다.
         for y in 0..<m.height
         {
             for x in 0..<m.width
@@ -175,16 +137,6 @@ func BOJ_2638()
                 }
             }
         }
-//        while airQueue.count != airIndex
-//        {
-//            let (x,y) = airQueue[airIndex]
-//            airIndex += 1
-//            if !airCheck[y][x]
-//            {
-//                airCheck[y][x] = true
-//                changeCheeseAir((x,y), &m, &airCheck)
-//            }
-//        }
     }
     print(time - 1)
 }

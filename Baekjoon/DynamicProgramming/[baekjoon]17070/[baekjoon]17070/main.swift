@@ -1,14 +1,14 @@
 import Foundation
-
 //세로 가로 대각
 let direction : [(x:Int,y:Int)] = [(0,1),(1,0),(1,1)]
-
 func dfs(_ x : Int, _ y : Int,_ n : Int, _ cross : Bool,_ width : Bool,_ dp : inout [[Int]], _ map : [[Int]]) -> Int
 {
     if x==n-1 && y==n-1
     {
         return 1
     }
+    //가로로 갔을 때 벽에 닿은 경우 or 세로로 갔을 때 벽에 닿은 경우
+    // !width 이면서 !cross이면 세로인 경우
     if (x == n-1 && width) || ( y == n-1 && !width && !cross)
     {
         return 0

@@ -2,7 +2,7 @@ import Foundation
 func binarySearch(_ target : Int, _ seq : inout [Int])
 {
     var left = 0 , right = seq.count - 1
-    while left > right
+    while left < right
     {
         let mid = (left + right) / 2
         if seq[mid] < target
@@ -37,3 +37,4 @@ func BOJ_12738()
     print(seq.count)
 }
 BOJ_12738()
+

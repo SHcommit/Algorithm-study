@@ -14,6 +14,7 @@ func binarySearch(_ target : Int, _ seq : inout [Int])
             right = mid
         }
     }
+    
     seq[right] = target
 }
 func BOJ_12738()

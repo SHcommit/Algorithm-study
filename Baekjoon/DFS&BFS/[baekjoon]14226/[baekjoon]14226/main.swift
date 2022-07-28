@@ -1,28 +1,49 @@
-import Foundation
 /*
- 시작은 화면에 이모티콘 한개 입력
- 
- 1. 화면의 이모티콘 전부 복사 후 클립보드에 저장
- -> 1
- 2. 클립보드에 있는 모든 이모티콘 화면에 붙여넣기 한다.
- 
- 3. 화면에 있는 이모티콘 중 하나를 삭제한다.
- 클립보드
- 
- 1.
- 1번 하면 1
- 1번 한번더 하면 2 1번 한번 더 하면 3
- 근데 1 -> 2 하면
- 화면은 2.
- 2에서 1번하면 클립보드 2개.
- 2에서 1하고 2하면
- 4개.
- 화면에서 한개 삭제 가능
- 
- 그니까 화면에서 현재꺼를 복사하는 기능
+ 엇ㅋㅋ 맨 처음 코드길이가 엄청 짧았는데
+ 1000 입력을 했을 때 cpu 소모량이 40%가 됬다.. 뭐지 엄청 작은 숫잔데
+ 알고보니 방문처리를 하지않아 중복으로 큐에 넣어 졌나보다. ㅋㅋ./.
  */
+import Foundation
 func BOJ_14226()
 {
-    
+    let n       = Int(readLine()!)!
+    var queue   = [(1,0,0)] , index = 0 , time = 0
+    var visited = Array(repeating: Array(repeating: false, count: 1001), count: 1001)
+    visited[1][0]  = true
+    while(queue.count != index)
+    {
+        let (curEmoji,curClip,curTime) = queue[index]
+        index += 1
+        if curTime == time
+        {
+            time += 1
+        }
+        if curEmoji == n
+        {
+            break
+        }
+        if curEmoji <= 0 || curEmoji >= 1001 || curClip <= -1 || curClip >= 1001
+        {
+            continue
+        }
+        if !visited[curEmoji][curEmoji]
+        {
+            
+            queue.append((curEmoji,curEmoji,curTime + 1))
+            visited[curEmoji][curEmoji] = true
+        }
+        if curEmoji + curClip <= 1000 && !visited[curEmoji+curClip][curClip]
+        {
+            queue.append((curEmoji+curClip,curClip,curTime + 1))
+            visited[curEmoji+curClip][curClip] = true
+        }
+        
+        if !visited[curEmoji-1][curClip]
+        {
+            queue.append((curEmoji-1,curClip,curTime + 1))
+            visited[curEmoji-1][curClip] = true
+        }
+    }
+    print(time - 1)
 }
 BOJ_14226()

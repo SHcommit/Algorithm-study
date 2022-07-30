@@ -1,3 +1,9 @@
+/*
+ 우왕..
+ LIS와 반대로.
+ 일단 seq.last보다 작으면 추가!! 크면 이진탐색으로 큰 곳 찾아줘
+ 근데 여기서 seq는 크면 클수록 왼쪽에 있기에 left right 설정 잘 해주어야함.
+ */
 import Foundation
 func binarySearch(_ target : Int, _ seq : inout [Int] )
 {

@@ -30,9 +30,6 @@ func BOJ_1472()
             binarySearch(list[i], &ans)
         }
     }
-    print(ans.reduce("", {
-        first,sec in
-        "\(first)\(sec)"}))
     print(ans.reduce("",{"\($0)\($1)"}))
 }
 BOJ_1472()

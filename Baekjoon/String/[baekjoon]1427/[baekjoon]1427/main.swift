@@ -11,17 +11,28 @@ func binarySearch(_ target : Int, _ seq : inout [Int])
         }
         else
         {right = mid}
-        seq[right] = mid
     }
+    seq.insert(target,at:right)
 }
 func BOJ_1472()
 {
     
     var list = readLine()!.map{Int(String($0))!}
     var ans = [list[0]]
-    for i in 0..<list.count
+    for i in 1..<list.count
     {
-        if list[i] > ans.
+        if list[i] < ans.last!
+        {
+            ans.append(list[i])
+        }
+        else
+        {
+            binarySearch(list[i], &ans)
+        }
     }
+    print(ans.reduce("", {
+        first,sec in
+        "\(first)\(sec)"}))
+    print(ans.reduce("",{"\($0)\($1)"}))
 }
 BOJ_1472()

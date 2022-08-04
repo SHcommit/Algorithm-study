@@ -71,18 +71,99 @@ func onCctv(_ point : point, arrow i : Int, _ info : inout mapInfo){
 
 }
 
+func cctvWorking(_ index : Int,_ cctvPoint : point,_ info : inout mapInfo, map : [[Int]],_ count : Int , _ ans : inout Int)
+{
+    if index == info.cctvList.count
+    {
+        if count < ans
+        {
+            ans = count
+            return
+        }
+    }
+    let (cctvX,cctvY) = info.cctvList[index]
+    var map  = info.map
+    var arrow = Array(repeating: 0, count: 4)
+    cctvSight((cctvX,cctvY), &arrow, info)
+    var (left,right,up,down) = (arrow[0],arrow[1],arrow[2],arrow[3])
+    
+    switch map[cctvY][cctvX]
+    {
+    case 1:
+        var temp = max(left, right, up, down)
+        for i in 0..<4
+        {
+            if temp == arrow[i]
+            {
+                onCctv((cctvX,cctvY), arrow: i, &info)
+                break;
+            }
+        }
+        break;
+    case 2:
+        if left+right >= up+down
+        {
+            onCctv((cctvX,cctvY), arrow: 0, &info)
+            onCctv((cctvX,cctvY), arrow: 1, &info)
+        }
+        else
+        {
+            onCctv((cctvX,cctvY), arrow: 2, &info)
+            onCctv((cctvX,cctvY), arrow: 3, &info)
+        }
+        break;
+    case 3:
+        if left > right
+        {
+            onCctv((cctvX,cctvY), arrow: 0, &info)
+            if up > down
+            {
+                onCctv((cctvX,cctvY), arrow: 2, &info)
+                break;
+            }
+            onCctv((cctvX,cctvY), arrow: 3, &info)
+        }
+        else
+        {
+            onCctv((cctvX,cctvY), arrow: 1, &info)
+            if up > down
+            {
+                onCctv((cctvX,cctvY), arrow: 2, &info)
+                break;
+            }
+            onCctv((cctvX,cctvY), arrow: 3, &info)
+        }
+        break;
+        //left == 0,right == 1,up == 2,down == 3
+    case 4:
+        let temp = arrow.sorted(by: <)
+        var flag = false
+        for i in 0..<4
+        {
+            if arrow[i] == temp[0] && !flag
+            {
+                flag = true
+                continue
+            }
+            onCctv((cctvX,cctvY), arrow: i, &info)
+        }
+        break;
+    case 5:
+        onCctv((cctvX,cctvY), arrow: 0, &info)
+        onCctv((cctvX,cctvY), arrow: 1, &info)
+        onCctv((cctvX,cctvY), arrow: 2, &info)
+        onCctv((cctvX,cctvY), arrow: 3, &info)
+        break;
+    default:
+        break;
+    }
+}
+
 func BOJ_15683()
 {
     var info = mapInfo()
-//    info.cctvList.sort
-//    {
-//        if info.map[$0.y][$0.x] > info.map[$1.y][$1.x]
-//        {
-//            return true
-//        }
-//        else {return false}
-//    }
     var index = 0
+    var ans  = 9999999
     while info.cctvList.count != index
     {
         let (cctvX,cctvY) = info.cctvList[index]
@@ -163,18 +244,7 @@ func BOJ_15683()
             break;
         }
     }
-    var ans = 0
-    for y in 0..<info.height
-    {
-        for x in 0..<info.width
-        {
-            if info.map[y][x] == 0
-            {
-                ans += 1
-            }
-        }
-    }
-    print(ans)
+    print(ans == 9999999 ? 0 : ans)
 
 }
 BOJ_15683()

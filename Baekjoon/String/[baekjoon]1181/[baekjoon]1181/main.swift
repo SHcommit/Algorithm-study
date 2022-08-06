@@ -1,11 +1,20 @@
-//
-//  main.swift
-//  [baekjoon]1181
-//
-//  Created by 양승현 on 2022/08/04.
-//
-
 import Foundation
 
-print("Hello, World!")
+func BOJ_1181()
+{
+    let n = Int(readLine()!)!
+    var check = Set<String>()
+    var words = [(Int, String)]()
 
+    for _ in 0 ..< n {
+        let word = String(readLine()!)
+        if check.insert(word).inserted {
+            words.append((word.count, word))
+        }
+    }
+    words = words.sorted{ $0.0 == $1.0 ? $0.1 < $1.1 : $0.0 < $1.0 }
+    for i in words {
+        print(i.1)
+    }
+}
+BOJ_1181()

@@ -2,10 +2,13 @@ import Foundation
 
 func bfs(_ n: Int)
 {
+    // n : 탐색할 숫자, "\(n) " 연산처리된 숫자, 0 : 누적 연산 횟수
     var queue = [(n,"\(n) ",0)]
+    // queue에 저장될 숫자를 중복 방문하지 않게 하기 위한 visited 체크
     var visited = Array(repeating: false , count : n+1)
     visited[n] = true
     var index = 0
+    //연산 횟수 측정하기 위한 변수
     var curCnt = 0
     while index != queue.count
     {

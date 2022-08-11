@@ -1,9 +1,13 @@
 import Foundation
-
+/*
+    G = 성원이가 놀랜 몸무게 차이
+    cur = 현재 성원이가 측정한 몸무게
+    think = 이전에 성원이가 기억 했었던 몸무게
+ */
 func BOJ_1484()
 {
     let G        = Int(readLine()!)!
-    var isAnswer = true , cur = 2, think = 1
+    var cur = 2, think = 1
     var ans      = ""
     while think < cur
     {

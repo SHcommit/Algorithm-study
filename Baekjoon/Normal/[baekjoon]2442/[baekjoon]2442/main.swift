@@ -20,22 +20,7 @@ func BOJ_2442()
             left  -= 1
             right += 1
         }
-        var flag = false
-        var ans = ""
-        for i in 0..<(n*2 - 1)
-        {
-            if flag && star[i] != "*"
-            {
-                break
-            }
-            if star[i] == "*"
-            {
-                flag = true
-            }
-            ans += star[i]
-            
-        }
-        print(ans)
+        print((star[0...(right-1)]).reduce(""){"\($0)\($1)"})
     }
 }
 BOJ_2442()

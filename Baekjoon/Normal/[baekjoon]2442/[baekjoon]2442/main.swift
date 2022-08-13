@@ -1,5 +1,7 @@
 import Foundation
-
+/**
+    이문제는 코드뒤에 공백이 없어야 한다.
+ */
 func BOJ_2442()
 {
     let n    = Int(readLine()!)!

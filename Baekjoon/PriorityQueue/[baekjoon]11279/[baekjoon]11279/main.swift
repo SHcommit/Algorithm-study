@@ -7,6 +7,10 @@
 
 import Foundation
 
+/*
+    내가생각하는 > 에 맞게 바꿨고 왜 틀렸냐면 delete에서 큐 다시 최대힙만족하게 소팅할때
+    아직 자식노드가 right까지 있을 때 자식노드가 부모노드랑 같으면 그만둬야하는데 그 경우를 안 넣었다.
+ */
 struct Heap<T> where T : Comparable
 {
     var heap : [T] = []
@@ -58,13 +62,17 @@ struct Heap<T> where T : Comparable
             {
                 if comparer(heap[right],heap[left]) && comparer(heap[right],heap[idx])
                 {
-                    heap.swapAt(right,idx)
+                    heap.swapAt(right, idx)
                     idx = right
                 }
                 else if comparer(heap[left],heap[idx])
                 {
                     heap.swapAt(left, idx)
                     idx = left
+                }
+                else
+                {
+                    break
                 }
             }
             else if left < heap.count
@@ -92,6 +100,7 @@ func BOJ_11279()
 {
     let n    = Int(readLine()!)!
     var heap = Heap<Int>()
+    var res  = ""
     for _ in 0..<n
     {
         let x = Int(readLine()!)!

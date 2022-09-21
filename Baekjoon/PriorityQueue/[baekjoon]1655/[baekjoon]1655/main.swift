@@ -1,18 +1,18 @@
 import Foundation
 
 final class FileIO {
-    private let buffer:[UInt8]
-    private var index: Int = 0
+    private var buffer:[UInt8]
+    private var index: Int
 
     init(fileHandle: FileHandle = FileHandle.standardInput) {
-        
-        buffer = Array(try! fileHandle.readToEnd()!)+[UInt8(0)]
+        buffer = Array(fileHandle.readDataToEndOfFile())+[UInt8(0)] // 인덱스 범위 넘어가는 것 방지
+        index = 0
     }
 
     @inline(__always) private func read() -> UInt8 {
         defer { index += 1 }
 
-        return buffer[index]
+        return buffer.withUnsafeBufferPointer { $0[index] }
     }
 
     @inline(__always) func readInt() -> Int {
@@ -20,15 +20,37 @@ final class FileIO {
         var now = read()
         var isPositive = true
 
-        while now == 10
-                || now == 32 { now = read() }
-        if now == 45 { isPositive.toggle(); now = read() }
+        while now == 10 || now == 32 { // 공백과 줄바꿈 무시
+            now = read()
+        }
+        
+        if now == 45{ // 음수 처리
+            isPositive.toggle()
+            now = read()
+        }
+        
         while now >= 48, now <= 57 {
             sum = sum * 10 + Int(now-48)
             now = read()
         }
 
         return sum * (isPositive ? 1:-1)
+    }
+
+    @inline(__always) func readString() -> String {
+        var str = ""
+        var now = read()
+
+        while now == 10
+            || now == 32 { now = read() } // 공백과 줄바꿈 무시
+
+        while now != 10
+            && now != 32 && now != 0 {
+                str += String(bytes: [now], encoding: .ascii)!
+                now = read()
+        }
+
+        return str
     }
 }
 
@@ -114,7 +136,6 @@ extension Heap {
 }
 
 class BOJ_1655 {
-    
     var n: Int
     var list: [Int]
     
@@ -124,25 +145,26 @@ class BOJ_1655 {
         list = [Int]()
         for _ in 0..<n {
             list.append(fIO.readInt())
-            
         }
     }
     
     func solution() {
-        
         var minHeap = Heap<Int>(callback: >)
         var maxHeap = Heap<Int>()
-        print("\(list[0])")
+
         maxHeap.insert(list[0])
         
         guard n != 1 else {
             return
         }
         
-        for i in 2...n {
+        for i in 1...n {
             
-            let index = i - 1
-            if minHeap.heap.count == maxHeap.heap.count {
+            if list.count == 1 {
+                print("\(list[0])")
+                return
+            }
+            else if minHeap.heap.count == maxHeap.heap.count {
                 maxHeap.insert(list[index])
             }else {
                 minHeap.insert(list[index])
@@ -160,4 +182,3 @@ class BOJ_1655 {
     
 }
 BOJ_1655().solution()
-

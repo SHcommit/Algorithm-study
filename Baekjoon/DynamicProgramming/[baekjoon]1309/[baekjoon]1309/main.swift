@@ -12,6 +12,6 @@ let n = Int(readLine()!)!
 var dp = Array(repeating: 1, count: n+1)
 dp[1] = 3
 for i in 2..<n+1 {
-    dp[i] = 2*dp[i-1] + dp[i-2] % MODNUM
+    dp[i] = ( 2*dp[i-1] + dp[i-2] ) % MODNUM
 }
 print(dp[n])

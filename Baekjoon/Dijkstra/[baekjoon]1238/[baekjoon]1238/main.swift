@@ -18,7 +18,6 @@ struct Heap<T> where T: Comparable {
         self.init(compare: <)
     }
 }
-
 extension Heap {
     var isEmpty: Bool {
         return heap.isEmpty
@@ -26,9 +25,7 @@ extension Heap {
     mutating func insert(_ element: T) {
         var idx = heap.count
         heap.append(element)
-        //아래에있는 내가 위의 부모보다 커야하는데!! 작다면? 위 아래 바꿔야함
-        //작은애를 오른쪽에
-        while idx > 0 && compare(heap[(idx-1)/2], heap[idx]) {
+        while idx > 0 && compare(heap[idx], heap[(idx-1)/2]) {
             heap.swapAt((idx-1)/2, idx)
             idx = (idx-1)/2
         }
@@ -47,18 +44,12 @@ extension Heap {
         while idx < heap.count {
             let (left,right) = (idx*2+1,idx*2+2)
             if right < heap.count {
-                if compare(heap[left], heap[right]) && compare(heap[right], heap[idx]) {
-                    //  30
-                    //50 20
-                    //오른쪽이 왼쪽보다 작은경우, 원래 자식이 부모보다 커야하는데 자식이 더 작은 경우,,
-                    heap.swapAt(right, idx)
-                    idx = right
-                }else if compare(heap[left],heap[idx]) {
-                    //   30
-                    // 20 50
-                    //이경우 원래는 자식이 부모보다 커야하는데 자식이 작아? 그럼 바꿔야지
+                if compare(heap[left], heap[right]) && compare(heap[left], heap[idx]) {
                     heap.swapAt(left, idx)
                     idx = left
+                }else if compare(heap[right],heap[idx]) {
+                    heap.swapAt(right, idx)
+                    idx = right
                 }else {
                     break
                 }
@@ -75,9 +66,8 @@ extension Heap {
         }
         return res
     }
-    
-    
 }
+
 struct Node {
     let vertex: Int
     let cost: Int

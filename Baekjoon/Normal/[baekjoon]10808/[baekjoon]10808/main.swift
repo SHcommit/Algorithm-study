@@ -7,11 +7,8 @@
 
 import Foundation
 
-func start(){
-    var arr = Array(repeating: 0, count: 26)
-    _=readLine()!.map{Character(String($0))}.map { ch in
-        arr[Int(ch.asciiValue!)-97] += 1
-    }
-    print(arr.map{String($0)}.joined(separator: " "))
+var arr = Array(repeating: 0, count: 26)
+_=readLine()!.map{Character(String($0))}.map { ch in
+    arr[Int(ch.asciiValue!)-97] += 1
 }
-start()
+print(arr.map{String($0)}.joined(separator: " "))

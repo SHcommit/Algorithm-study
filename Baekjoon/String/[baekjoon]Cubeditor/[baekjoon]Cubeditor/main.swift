@@ -31,6 +31,6 @@ var res = 0
 _=(0..<pattern.count).map {
     let substring = pattern.prefix($0+1).map{$0}
     let pi = getPartialMatch(needle: substring)
-    res = max(res, pi.max()!)
+    
 }
 print(res)

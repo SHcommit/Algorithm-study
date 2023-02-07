@@ -50,12 +50,20 @@ func bfs(start: Point) {
     while queue.count != index {
         let (curPoint,mirror,prevDirect) = queue[index]
         index += 1
+        
         for direct in Direction {
             let (nx, ny) = (direct.x+curPoint.x, direct.y+curPoint.y)
             var newMirror = mirror
             if isOutOfBounds(point: (nx,ny)) { continue }
             if map[ny][nx] == "*" { continue }
+            if queue.contains(where: {
+                $0.point == (nx,ny) &&
+                $0.prevDirect == prevDirect &&
+                $0.mirror < mirror}) {
+                break
+            }
             if prevDirect != direct { newMirror += 1 }
+            
             if visited[ny][nx] >= newMirror {
                 visited[ny][nx] = newMirror
                 queue.append(((nx,ny), newMirror, direct))

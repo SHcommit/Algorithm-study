@@ -6,10 +6,8 @@
 //
 
 import Foundation
-
+    
 print(readLine()!
     .split{$0==" "}
-    .map{Int($0)! * Int($0)!}
-    .reduce(0,+)
-    .map{$0/10}
-    .first!)
+    .map{Int($0)!*Int($0)!}
+    .reduce(0) { ($0+$1)%10})

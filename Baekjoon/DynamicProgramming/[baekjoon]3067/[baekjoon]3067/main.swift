@@ -1,9 +1,4 @@
-//
-//  main.swift
-//  [baekjoon]3067
-//
-//  Created by 양승현 on 2023/02/16.
-//
+// https://dev-with-precious-dreams.tistory.com/192
 
 import Foundation
 var res = ""
@@ -20,3 +15,4 @@ var res = ""
     res += "\(dp[targetMoney])\n"
 }
 print(res)
+

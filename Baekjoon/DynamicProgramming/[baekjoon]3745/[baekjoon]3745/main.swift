@@ -23,8 +23,6 @@ var buffer: [UInt8] = Array(FileHandle.standardInput.readDataToEndOfFile()), byt
     while 48...57 ~= byte { number = number * 10 + Int(byte - 48); byte = readByte() }
     return number * (isNegative ? -1 : 1)
 }
-
-
 func binarySearch(_ seq: inout [Int], target: Int) {
     var l = 0, r = seq.count-1, mid = 0
     while l<r {
@@ -37,10 +35,6 @@ func binarySearch(_ seq: inout [Int], target: Int) {
 func solution() {
     while true {
         let n = readInt()
-        //궁금한건 왜 내가 한 이 코드는 안될까? 무수히 많은 공백 사이에 공백만있다면 return되는데,,
-        // 무수히 많은 공백 사이에 숫자 한개 있으면 아래 문장 실행되는데..
-//        guard true == readLine()?.split{$0==" "}.map{$0}.contains(where: {$0 != ""}) else { return }
-        //let lists = readLine()!.split{$0==" "}.map{Int(String($0))!}
         let lists = (0..<n).map{_ in readInt()}
         var seq = [lists.first!]
         (1..<lists.count).map{

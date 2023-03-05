@@ -5,6 +5,8 @@
 //  Created by 양승현 on 2023/03/05.
 //
 
+//https://dev-with-precious-dreams.tistory.com/manage/posts/
+
 import Foundation
 typealias Element = (time: Int, value: Int)
 let nk = readLine()!.split{$0==" "}.map{Int(String($0))!}

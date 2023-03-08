@@ -7,11 +7,24 @@
 
 import Foundation
 
-// 홍보할 수 있는 도시. 홍보 시 고객 3명 늘어남.
-//홍보할 때 드는 비용 + 몇명으 ㅣ호텔 고객이 늘어나는지 정보 0
-// 9원 드려헝보하면 3명 있음.
-// 이러한 정보에 나타난 돈에 정수배 만큼 투자 가능.
-// 18원이면 6명.
-// 첫줄에 홍보할 수이쓴 도시개수.'// 적어도 C명.
-
-
+var cn = readLine()!.split{$0==" "}.map{Int(String($0))!}
+let (c,n) = (cn[0],cn[1])
+var cache = Array(repeating:0, count:1000*100 + 1)
+let items: [(cost: Int, client: Int)] = (1...n).map{ _ in
+    let seq = readLine()!.split{$0==" "}.map{Int(String($0))!}
+    return (seq[0],seq[1])
+}
+(1...n).map{
+    for j in 1...1000*100 {
+        if j - items[$0-1].cost >= 0 {
+            cache[j] = max(cache[j], cache[j - items[$0-1].cost] + items[$0-1].client)
+        }
+    }
+}
+func solution() {
+    for i in 0...cache.count where cache[i] >= c{
+            print(i)
+        return
+    }
+}
+solution()

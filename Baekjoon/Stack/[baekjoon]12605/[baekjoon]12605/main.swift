@@ -6,36 +6,38 @@
 //
 
 import Foundation
+//
+//(1...Int(readLine()!)!).map{
+//    print("Case #\($0): \(readLine()!.split{$0==" "}.reversed().joined(separator: " "))")
+//}
 
-(1...Int(readLine()!)!).map{
-    print("Case #\($0): \(readLine()!.split{$0==" "}.reversed().joined(separator: " "))")
-}
 
-
-struct Stack {
-    private var lists: [String]
-    init(lists: [String] = [String]()) {
+struct Stack<T> {
+    typealias Element = T
+    private var lists: [Element]
+    init(lists: [Element] = [Element](), type: Element.Type) {
         self.lists = lists
+        
     }
 }
 extension Stack {
-    mutating func push(_ element: String) {
+    mutating func push(_ element: Element) {
         lists.append(element)
     }
-    mutating func pop() -> String?{
-        guard count() != 0 else { return nil }
+    mutating func pop() -> Element?{
+        guard count != 0 else { return nil }
         return lists.removeLast()
     }
-    func count() -> Int {
+    var count: Int {
         return lists.count
     }
-    func top() -> String {
-        return lists[count()-1]
+    var top: Element {
+        return lists[count-1]
     }
 }
 
 _=(1...Int(readLine()!)!).map{ caseIndex in
-    var stack = Stack()
+    var stack = Stack(type: String.self)
     var reversedText = ""
     for text in readLine()!.split{$0==" "} {
         stack.push(String(text))
@@ -45,3 +47,4 @@ _=(1...Int(readLine()!)!).map{ caseIndex in
     }
     print("Case #\(caseIndex): \(reversedText)")
 }
+//a b c d e ff gg ghhh i j kkk

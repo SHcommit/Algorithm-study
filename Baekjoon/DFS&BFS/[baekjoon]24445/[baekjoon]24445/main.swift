@@ -27,11 +27,10 @@ func bfs() {
     let vertex = queue[idx]
     idx += 1
     _=graph[vertex].map {
-      if visited[$0] == 0 {
-        count += 1
-        queue.append($0)
-        visited[$0] = count
-      }
+      if visited[$0] != 0 { return }
+      count += 1
+      queue.append($0)
+      visited[$0] = count
     }
   }
   print(visited.map{String($0)}.joined(separator: "\n"))

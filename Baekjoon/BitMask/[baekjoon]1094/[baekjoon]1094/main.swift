@@ -7,5 +7,16 @@
 
 import Foundation
 
-print("Hello, World!")
+var count = 0;
+var n = 64;
+var x = Int(readLine()!)!
 
+while x > 0 {
+  if n > x {
+    n /= 2
+  }else if n <= x {
+    count += 1
+    x -= n
+  }
+}
+print(count)

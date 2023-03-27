@@ -7,18 +7,24 @@
 
 import Foundation
 
+func initPainted(target lists: inout [Bool], section: [Int]) {
+  section.map {
+    lists[$0 - 1] = false
+  }
+}
+func drawPainted(lists: inout [Bool], m: Int, i: Int, n : Int) {
+  for j in (i..<i+m) where j < n {
+    lists[j] = true
+  }
+}
 func solution(_ n:Int, _ m:Int, _ section:[Int]) -> Int {
   
   var painted = Array(repeating: true, count: n)
-  section.map {
-    painted[$0 - 1] = false
-  }
   var count = 0
+  initPainted(target: &painted, section: section)
   (0..<n).map{ i in
     if !painted[i] {
-      for j in (i..<i+m) where j < n {
-        painted[j] = true
-      }
+      drawPainted(lists: &painted, m: m, i: i, n: n)
       count += 1
     }
   }

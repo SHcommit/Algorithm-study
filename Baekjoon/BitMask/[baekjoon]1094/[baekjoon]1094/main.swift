@@ -15,8 +15,12 @@ while x > 0 {
   if n > x {
     n /= 2
   }else if n <= x {
-    count += 1
+    count += 1    
     x -= n
   }
 }
 print(count)
+
+while x > 0 {
+  if n>>
+}

@@ -6,18 +6,12 @@
 //
 
 import Foundation
-
-var input = readLine()!.split(separator: " ").map{Int(String($0))!}
-
-for i in 1...input[0]{
-    var res = ""
-    var k = 1
-    for j in 0..<input[1]{
-        while(k != input[0]){
-            res += "\(j) "
-            k += 1
-        }
-        
-    }
-    print(res)
+let nm = readLine()!.split{$0==" "}.map { Int(String($0))!}
+func execute(_ k: [String]) {
+  if k.count == nm[1] {
+    print(k.joined(separator: " "))
+    return
+  }
+  _=(1...nm[0]).map{execute(k+[String($0)])}
 }
+execute([])

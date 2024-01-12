@@ -6,48 +6,40 @@
 //
 
 import Foundation
-(0..<Int(readLine()!)!).forEach { _ in
-  s()
-}
+
+(0..<Int(readLine()!)!).forEach { _ in s() }
 func s() {
   let p = readLine()!.map {String($0)}
   let n = Int(readLine()!)!
   var isReversed = false
-  var isError = false
-  var front = 0, rear = n-1
+  var f = 0, r = n-1
   let seq = readLine()!.replacingOccurrences(of: "[\\[\\]]", with: "", options: .regularExpression).split{$0==","}.map{String($0)}
   if n == 0 {
-    if p.contains("D") {
-      print("error")
-      return
-    }
-    print("[]")
+    print( p.contains("D") ? "error" : "[]")
     return
   }
   for (i,c) in p.enumerated() {
     if c == "D" {
       if isReversed {
-        rear -= 1
+        r -= 1
       } else {
-        front += 1
+        f += 1
       }
     } else {
       isReversed.toggle()
     }
-    if i+1 == p.count && front-rear >= 1 {
+    if i+1 == p.count && f-r >= 1 {
       print("[]")
       return
     }
-    if front > rear {
+    if f > r {
       print("error")
-      isError.toggle()
-      break
+      return
     }
   }
-  if isError { return }
   if isReversed {
-    print("["+stride(from: rear, through: front, by: -1).map{seq[$0]}.joined(separator: ",")+"]")
+    print("["+stride(from: r, through: f, by: -1).map{seq[$0]}.joined(separator: ",")+"]")
   } else {
-    print("["+seq[front...rear].joined(separator: ",")+"]")
+    print("["+seq[f...r].joined(separator: ",")+"]")
   }
 }

@@ -29,4 +29,4 @@ func sol(_ k: Int) {
 }
 sol(0)
 print(res.joined(separator: "\n"))
-//(NSOrderedSet(array: res).array as! [String]).forEach{print($0)}
+// (NSOrderedSet(array: res).array as! [String]).forEach{print($0)}

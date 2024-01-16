@@ -6,51 +6,42 @@
 //
 
 import Foundation
+/*
+  느낀점:
+ 확실히 이전에 dfs로 맨 처음에 조합을 구해나가는 것보다 한번에 조합을 미리 구한후에 구현하는게 더 빠르다는 체감이 확 들었다.
+ 근데 다른사람들 푼거 무엇.. 다 잘푸네ㅠㅅㅠ..
+ */
 let n=5
-let board: [[Int]] = (0..<n).map{_ in 
-  return readLine()!.map{
-    if String($0) == "S" {
-      return 1
-    }
-    return 0
-  }
-}
-var selected = (0..<25).map{_ in 0}
+let board = (0..<n).map{_ in return readLine()!.map{ String($0)}}
 var ans = 0
 typealias Point = (x: Int, y: Int)
 let direction: [Point] = [(-1,0),(0,1),(1,0),(0,-1)]
 
-func dfs(from idx: Int, withCount cnt: Int) {
-  if cnt == 7 {
-    if isMoreThanFour() {
-      if bfs() {
-        ans += 1
-      }
-    }
+func isMoreThanFour(_ selected: [Int]) -> Bool {
+  var sCnt = 0
+  for i in 0..<7 {
+    let x = selected[i] % n
+    let y = selected[i] / n
+    if board[y][x] == "S" { sCnt += 1 }
+    if sCnt == 4 { return true }
   }
-  for i in idx..<25 {
-    if selected[i] == 1 { continue }
-    selected[i] = 1
-    dfs(from: i, withCount: cnt+1)
-    selected[i] = 0
-  }
+  return false
 }
 
-func bfs() -> Bool {
-  var visited = (0..<n).map{_ in (0..<n).map{_ in 0}}
-  var hasSelected = (0..<n).map{_ in (0..<n).map{_ in 0}}
+func bfs(_ selected: [Int]) -> Bool {
+  var visited = (0..<n).map{_ in (0..<n).map{_ in false}}
+  var hasSelected = (0..<n).map{_ in (0..<n).map{_ in false}}
   var queue: [Point] = []
   var idx = 0
   var count = 1
   var isFirstSave = false
-  for i in 0..<25 {
-    if selected[i] == 0 { continue }
-    let y = i/5
-    let x = i%5
-    hasSelected[y][x] = 1
+  for s in selected {
+    let y = s/n
+    let x = s%n
+    hasSelected[y][x] = true
     if !isFirstSave {
       isFirstSave = true
-      visited[y][x] = 1
+      visited[y][x] = true
       queue.append((x,y))
     }
   }
@@ -58,11 +49,11 @@ func bfs() -> Bool {
     let c = queue[idx]
     for d in direction{
       let (nx, ny) = (c.x+d.x, c.y+d.y)
-      if nx<0 || nx>n-1 || ny<0 || ny>n-1 { continue }
-      if hasSelected[ny][nx] == 1 && visited[ny][nx] == 0 {
+      if !(0..<n).contains(nx) || !(0..<n).contains(ny) { continue }
+      if hasSelected[ny][nx] && !visited[ny][nx] {
         count += 1
         if count == 7 { return true }
-        visited[ny][nx] = 1
+        visited[ny][nx] = true
         queue.append((nx,ny))
       }
     }
@@ -71,18 +62,24 @@ func bfs() -> Bool {
   return false
 }
 
-func isMoreThanFour() -> Bool {
-  var cnt = 0
-  for i in 0..<25 {
-    let y = i/n
-    let x = i%n
-    if selected[i] == 1 && board[y][x] == 1 { cnt+=1 }
+func combi(arr: [Int], n: Int) -> [[Int]] {
+  var combiArr = [[Int]]()
+  func dfs(index: Int, now: [Int]) {
+    if now.count == n {
+      combiArr.append(now)
+      return
+    }
+    for i in index..<arr.count {
+      dfs(index: i + 1, now: now + [arr[i]])
+    }
   }
-  if cnt >= 4 {
-    return true
-  }
-  return false
+  dfs(index: 0, now: [])
+  return combiArr
 }
 
-dfs(from: 0, withCount: 0)
+combi(arr: Array(stride(from: 0, through: 24, by: 1)), n: 7).forEach {
+  if isMoreThanFour($0) {
+    if bfs($0) { ans += 1 }
+  }
+}
 print(ans)

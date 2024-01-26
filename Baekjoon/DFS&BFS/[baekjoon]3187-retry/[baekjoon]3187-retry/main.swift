@@ -8,48 +8,28 @@
 import Foundation
 
 typealias Point = (x:Int, y:Int)
+let hw = readLine()!.split{$0==" "}.map{Int($0)!}, H = hw[0], W = hw[1]
 let direction: [Point] = [(-1,0),(1,0),(0,1),(0,-1)]
-let hw = readLine()!.split{$0==" "}.map{Int($0)!}
-let H = hw[0], W = hw[1]
-var visited = (0..<H).map{_ in (0..<W).map{_ in false}}
-let board = (0..<H).map{_ in readLine()!.map{String($0)}}
-var sheep = 0, wolf = 0
-
-func isOutOfBounds(_ p: Point) -> Bool {
-  return !(0..<H).contains(p.y) || !(0..<W).contains(p.x)
+var animals: [Point] = []
+var sheep = 0, wolf = 0, tempSheep = 0, tempWolf = 0
+var board: [[String]] = (0..<H).map{ y in
+  {
+    for (x,v) in $0.enumerated() where v=="v"||v=="k" { animals.append((x:x,y:y)) }
+    return $0
+  }(readLine()!.map{String($0)})
 }
-
-func bfs(from startPoint: Point) {
-  var sheepCount = 0, wolfCount = 0
-  var queue: [Point] = [startPoint]
-  visited[startPoint.y][startPoint.x] = true
-  var index = 0
-  while queue.count > index {
-    let current = queue[index]
-    let currentValue = board[current.y][current.x]
-    if currentValue == "k" { sheepCount += 1}
-    if currentValue == "v" { wolfCount += 1}
-    for d in direction {
-      let next: Point = (current.x+d.x, current.y+d.y)
-      if isOutOfBounds(next) 
-          || board[next.y][next.x] == "#"
-          || visited[next.y][next.x] {continue}
-      visited[next.y][next.x] = true
-      queue.append(next)
-    }
-    index+=1
-  }
-  if wolfCount-sheepCount < 0 {
-    sheep += sheepCount
-    return
-  }
-  wolf += wolfCount
+func dfs(of p: Point) {
+  if !(0..<H).contains(p.y) || !(0..<W).contains(p.x) || board[p.y][p.x] == "#" { return }
+  if board[p.y][p.x] == "k" { tempSheep += 1 }
+  if board[p.y][p.x] == "v" { tempWolf += 1 }
+  board[p.y][p.x] = "#"
+  direction.forEach { dfs(of: (p.x+$0.x,p.y+$0.y)) }
 }
-
-(0..<H).forEach { y in
-  for x in 0..<W where !visited[y][x] && (board[y][x] == "v"||board[y][x]=="k") {
-    bfs(from: (x,y))
-  }
+animals.forEach {
+  tempSheep = 0
+  tempWolf = 0
+  dfs(of: $0)
+  if tempWolf - tempSheep < 0 { sheep += tempSheep }
+  else { wolf += tempWolf }
 }
-
 print("\(sheep) \(wolf)")

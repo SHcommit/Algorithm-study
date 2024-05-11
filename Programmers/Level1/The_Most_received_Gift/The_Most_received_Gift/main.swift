@@ -10,25 +10,25 @@ import Foundation
 func solution(_ friends:[String], _ gifts:[String]) -> Int {
   var giftTable: [[Int]] = Array(repeating: Array(repeating: 0, count: friends.count), count: friends.count)
   var giftFigures: [Int] = []
-  let giftsAndReceives = gifts.map { gift in
-    gift.split { $0==" " }.compactMap { String($0) }
-  }
-  giftsAndReceives.forEach { giftAndReceive in
-    let gifterIdx = friends.firstIndex(where: { $0 == giftAndReceive[0] })!
-    let receiverIdx = friends.firstIndex(where: { $0 == giftAndReceive[1] })!
+  var res: [Int] = Array(repeating: 0, count: friends.count)
+  
+  gifts.forEach { gift in
+    let giftsAndReceives = gift.split { $0==" " }.compactMap { String($0) }
+    let gifterIdx = friends.firstIndex(where: { $0 == giftsAndReceives[0] })!
+    let receiverIdx = friends.firstIndex(where: { $0 == giftsAndReceives[1] })!
     giftTable[receiverIdx][gifterIdx] += 1
   }
-  giftFigures = (0..<friends.count).map { index in
+  
+  giftFigures = (0..<friends.count).map { giverIdx in
     var totalGiveCount = 0
     var totalReceiveCount = 0
-    for i in 0..<friends.count {
-      if i == index { continue }
-      totalGiveCount += giftTable[i][index]
-      totalReceiveCount += giftTable[index][i]
+    for receiverIdx in 0..<friends.count {
+      if receiverIdx == giverIdx { continue }
+      totalGiveCount += giftTable[receiverIdx][giverIdx]
+      totalReceiveCount += giftTable[giverIdx][receiverIdx]
     }
     return totalGiveCount - totalReceiveCount
   }
-  var res: [Int] = Array(repeating: 0, count: friends.count)
   for giverIdx in 0..<friends.count {
     for receiverIdx in 0..<friends.count {
       if giverIdx == receiverIdx { continue }
@@ -44,7 +44,6 @@ func solution(_ friends:[String], _ gifts:[String]) -> Int {
       }
     }
   }
-  
   return res.max() ?? 0
 }
 

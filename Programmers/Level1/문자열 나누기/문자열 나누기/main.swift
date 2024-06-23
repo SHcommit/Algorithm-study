@@ -7,12 +7,12 @@
 
 import Foundation
 
-
 func solution(_ s:String) -> Int {
   let str = s.map { String($0) }
   var ans = 0
   var separatorIdx = 0
   var separatorCount = 1
+  if str.count == 1 { return 1 }
   for i in (1..<str.count) {
     if separatorCount == 0 {
       separatorCount = 1
@@ -36,3 +36,5 @@ func solution(_ s:String) -> Int {
   
   return ans
 }
+
+print(solution("a"))

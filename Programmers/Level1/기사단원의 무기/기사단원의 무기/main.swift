@@ -21,7 +21,5 @@ func divisor(_ k: Int) -> [Int] {
   }
   return Array(set)
 }
-//print(solution(5, 3, 2))
 
-
-print(divisor(6))
+print(solution(5, 3, 2))

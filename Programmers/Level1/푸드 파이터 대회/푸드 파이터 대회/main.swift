@@ -8,6 +8,8 @@
 import Foundation
 
 // 한 큐에 풀어보았다.
+// 오알개(오늘 알개된 개념이라는 뜻)
+// - reversed()는 문자열도 가능하다. 시간복잡도는 O(1)
 
 func solution(_ food:[Int]) -> String {
   { $0 + "0" + $0.reversed() }(

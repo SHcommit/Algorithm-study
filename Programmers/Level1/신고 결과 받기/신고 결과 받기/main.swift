@@ -27,6 +27,8 @@ import Foundation
 /// ```
 ///
 /// 다른사람들의 코드를보며 개선해보자!
+/// - report를 set로 하면 좀더 수월하게 접근인 가능한데 난 이거풀때
+/// - for report in reports 이 내부에서 중복 처리를하려고하니 좀 별로였다 싶었느데, 루프 돌때 중복을 제거하면됬었쿤.
 func solution(_ id_list:[String], _ reports:[String], _ k:Int) -> [Int] {
   var reportsUserReceived = id_list.reduce(into: [String: Int]()) { $0[$1] = 0 }
   var reportIds = id_list.reduce(into: [String: [String]]()) { $0[$1] = [String]() }

@@ -16,9 +16,8 @@ func solution(_ survey:[String], _ choices:[Int]) -> String {
   for (i, input) in survey.enumerated() {
     let s = input.map { String($0) }
     let choice = choices[i]
-    if choice == 4 { continue }
-    if choice > 4 { scores[s[1]]! += choice - 4 }
-    else { scores[s[0]]! += 4 - choice }
+    if 1...3 ~= choice { scores[s[0]]! += 4 - choice }
+    else if 5...7 ~= choice { scores[s[1]]! += choice - 4 }
   }
   return stride(from: 0, to: personality.count, by: 2).reduce("") {
     let a = personality[$1]

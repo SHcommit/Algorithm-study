@@ -33,4 +33,10 @@ func solution(_ n:Int, _ left:Int64, _ right:Int64) -> [Int] {
   }
 }
 
+// MARK: Code rebuilding
+/// 아 .. 이럴땐 맥스 써도 좋았을텐데 맥스 함수가 안떠올랐다.
+func solution3(_ n:Int, _ left:Int64, _ right:Int64) -> [Int] {
+  (left...right).map { max($0 % n + 1, $0 / n + 1) }
+}
+
 print(solution(3, 2, 5))

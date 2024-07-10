@@ -26,11 +26,18 @@ func solution1(_ n:Int, _ left:Int64, _ right:Int64) -> [Int] {
 }
 
 // MARK: 2nd try. 뀨
-func solution(_ n:Int, _ left:Int64, _ right:Int64) -> [Int] {
+/// 맥스 써도됨 이거도됨.
+func solution2(_ n:Int, _ left:Int64, _ right:Int64) -> [Int] {
   return (left...right).map {
     let n = Int64(n), one = Int64(1), x: Int64 = $0 % n, y = $0 / n
     return Int(x > y ? x + one : y + one)
   }
+}
+
+// MARK: Code rebuilding
+/// 아 .. 이럴땐 맥스 써도 좋았을텐데 맥스 함수가 안떠올랐다.
+func solution(_ n:Int, _ left:Int64, _ right:Int64) -> [Int] {
+  (left...right).map { max(Int($0) % n + 1, Int($0) / n + 1) }
 }
 
 print(solution(3, 2, 5))

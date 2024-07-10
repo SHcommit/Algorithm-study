@@ -39,5 +39,4 @@ func solution2(_ n:Int, _ left:Int64, _ right:Int64) -> [Int] {
 func solution(_ n:Int, _ left:Int64, _ right:Int64) -> [Int] {
   (left...right).map { max(Int($0) % n + 1, Int($0) / n + 1) }
 }
-
 print(solution(3, 2, 5))

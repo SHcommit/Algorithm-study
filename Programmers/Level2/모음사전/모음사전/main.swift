@@ -32,4 +32,20 @@ func solution(_ word:String) -> Int {
   return ans
 }
 
+// 아하 이렇게 그냥 전체 구하고 어느 위치에 속해있는지도 구했네 이것도좋다.
+func sol2(_ word: String) -> Int {
+  let alphabet: [Int: String] = [0:"A", 1:"E", 2:"I", 3:"O", 4:"U"]
+  var res: [String] = []
+  
+  func recur(_ str: String = ""){
+    res.append(str)
+    if str.count == 5 { return }
+    for i in 0..<5 {
+      recur(str + alphabet[i]!)
+    }
+  }
+  recur()
+  return res.firstIndex(of: word)!
+}
+
 print(solution("AAAEE"))

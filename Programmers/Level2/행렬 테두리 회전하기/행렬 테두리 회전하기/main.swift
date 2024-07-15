@@ -26,8 +26,6 @@ func solution(_ rows:Int, _ columns:Int, _ queries:[[Int]]) -> [Int] {
     for x in stride(from: x2-1, through: x1, by: -1) {
       minValue = min(minValue, matrix[y1][x])
       matrix[y1][x+1] = matrix[y1][x]
-      //             minValue = min(minValue, matrix[y2][x2-x+1])
-      // matrix[y2][x2-x] = matrix[y2][x2-x+1]
     }
     for y in y1+1...y2 {
       minValue = min(minValue, matrix[y][x1])

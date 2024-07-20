@@ -27,6 +27,8 @@ import Foundation
 /// 이 조건들을 대응해야한다.
 ///
 /// 난 재귀로 풀었는데 dfs로도 접근한 풀이가있는데 깔끔하네,,.
+/// 아하.. 나랑같네 재귀로 푼건데 이름을 dfs. 여기선 나는 숫자 다셌는데, 처음 탐색할 때 수와 , 지금 scope에서 탐색중인 수가 다르면? 어차피 쪼개야하는거라서
+///  아.. ㅇㅈ. 좋네.
 typealias Point = (x: Int, y: Int)
 typealias Res = (zeroCnt: Int, oneCnt: Int)
 var arr: [[Int]] = []

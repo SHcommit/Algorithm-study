@@ -17,6 +17,10 @@ import Foundation
 ///
 /// 3. 후보키들의 부분집합에 탐색중인 특정 조합이 포함된다면 해당 조합은 최소성을 만족하지 않음.
 /// 4. 후보키들과 key가 일치하지 않는 combi(attr key 조합)은 후보키에 햅격임.
+///
+///
+/// 위에 2번의 시간초과는 -> Set.update(with:) 를 사용한다면 해결할 수 있다.. 이게 더 편하다. 이거는 Set에 원소를 추가할 때 새로운 원소라면 nil,
+///   기존에 존재하던 원소라면 기존 원소를 반환한다. ( not nil )
 
 // MARK: - 2nd try
 func solution(_ relation:[[String]]) -> Int {

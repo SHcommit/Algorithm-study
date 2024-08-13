@@ -13,6 +13,7 @@ import Foundation
 ///
 /// 방법을 바꿔서! 일단 최악의 경우 bfs 특징을 활용해보자.
 /// 그리고 bfs는 모든 tree를 한번씩 탐색하는거니까 이 루트 노드는 destination을 이용해서 탐색해보자!
+/// https://dev-with-precious-dreams.tistory.com/290
 func solution(_ n:Int, _ roads:[[Int]], _ sources:[Int], _ destination:Int) -> [Int] {
     var routes = roads.reduce(into: [Int: [Int]]()) {
         $0[$1[0], default: []].append($1[1])

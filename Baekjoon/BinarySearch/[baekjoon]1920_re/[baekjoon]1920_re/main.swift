@@ -21,7 +21,7 @@ let targets = readLine()!.split{$0==" "}.compactMap{Int(String($0))}
 
 func binarySearch(target: Int) -> Int {
   var l = 0, r = a.count-1, m = 0
-  while l < r {
+  while l <= r {
     m = (l+r)/2
     if target > a[m] {
       l = m + 1

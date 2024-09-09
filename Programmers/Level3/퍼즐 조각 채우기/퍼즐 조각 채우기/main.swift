@@ -96,20 +96,16 @@ func bfs(_ start: Point, in board: [[Int]], searchCondition: (Int) -> Bool) -> B
   visited[start.y][start.x] = true
   var queue: [Point] = [start]
   var index = 0
-  
   while index < queue.count {
     let current = queue[index]
     index += 1
     for direction in directions {
       let next = Point(current.x + direction.x, current.y + direction.y)
-      if isOutOfBounds(next, n: n) { continue }
-      if visited[next.y][next.x] { continue }
-      if !searchCondition(board[next.y][next.x]) { continue }
+      if isOutOfBounds(next, n: n) || visited[next.y][next.x] || !searchCondition(board[next.y][next.x]) { continue }
       visited[next.y][next.x] = true
       queue.append(next)
     }
   }
   return queue
 }
-
 func isOutOfBounds(_ p: Point, n: Int) -> Bool { !((0..<n)~=p.x && (0..<n)~=p.y) }

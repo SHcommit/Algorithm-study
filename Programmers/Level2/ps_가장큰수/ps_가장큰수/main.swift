@@ -7,5 +7,11 @@
 
 import Foundation
 
-print("Hello, World!")
-
+func solution(_ numbers:[Int]) -> String {
+  { $0.first == "0" ? "0" : $0}(
+    numbers
+      .map { String($0) }
+      .sorted { $0 + $1 > $1 + $0 }
+      .joined())
+}
+print(solution([3, 30, 34, 5, 9]))

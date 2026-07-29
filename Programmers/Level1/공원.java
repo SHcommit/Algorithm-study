@@ -1,3 +1,4 @@
+// 아 문자열 비교하는거 ==로 하니까 ;,; equals로 해야함
 class Solution {
 public int solution(int [] mats, String [][] park) {
         int ans = -1;

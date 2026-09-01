@@ -1,0 +1,18 @@
+import java.util.*;
+
+class Solution {
+    static List<int[]> ans = new ArrayList<>();
+    public int[][] solution(int n) {
+		hanoi(n,1,2,3);
+		return ans.toArray(new int[ans.size()][]);
+	}
+	static void hanoi(int x, int from, int temp, int to) {
+		if(x==1) {
+			ans.add(new int[] {from, to});
+			return;
+		}
+		hanoi(x-1, from, to, temp);
+		ans.add(new int[] {from, to});
+		hanoi(x-1, temp, from, to);
+	}
+}
